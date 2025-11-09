@@ -59,8 +59,8 @@ export default function FindWorkersPage() {
   return (
     <div className="bg-background rounded-lg p-4 sm:p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold font-headline mb-2">Direct Hire</h1>
-        <p className="text-muted-foreground">Browse available workers and hire them directly.</p>
+        <h1 className="text-3xl font-bold font-headline mb-2">{t('find_workers_title')}</h1>
+        <p className="text-muted-foreground">{t('find_workers_desc')}</p>
       </div>
       
       <div className="flex flex-col sm:flex-row gap-4">

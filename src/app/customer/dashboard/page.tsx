@@ -50,12 +50,12 @@ export default function CustomerDashboardPage() {
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <Search className="h-8 w-8 text-primary" />
-                            <span>Direct Hire</span>
+                            <span>{t('customer_dashboard_find_workers')}</span>
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
                          <Button asChild className="w-full">
-                            <Link href="/customer/find-workers">Hire a Worker <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                            <Link href="/customer/find-workers">{t('customer_dashboard_find_workers')} <ArrowRight className="ml-2 h-4 w-4" /></Link>
                         </Button>
                     </CardContent>
                 </Card>
