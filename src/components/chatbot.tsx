@@ -28,6 +28,7 @@ export default function Chatbot() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const role: UserRole | 'guest' = pathname.includes('/customer') ? 'customer' : pathname.includes('/worker') ? 'worker' : 'guest';
+  const isWorkerRoute = pathname.includes('/worker');
   
   useEffect(() => {
     if (isOpen && messages.length === 0) {
@@ -67,7 +68,10 @@ export default function Chatbot() {
 
   return (
     <>
-      <div className={cn("fixed bottom-4 right-4 z-50 transition-transform duration-300 ease-in-out", isOpen ? "translate-y-[200%]" : "translate-y-0")}>
+      <div className={cn("fixed right-4 z-50 transition-transform duration-300 ease-in-out", 
+          isWorkerRoute ? 'bottom-20' : 'bottom-4',
+          isOpen ? "translate-y-[200%]" : "translate-y-0"
+      )}>
         <Button onClick={() => setIsOpen(true)} size="icon" className="rounded-full w-16 h-16 shadow-lg bg-primary hover:bg-primary/90">
           <Bot className="h-8 w-8 text-primary-foreground" />
           <span className="sr-only">Open Chat</span>
@@ -75,7 +79,7 @@ export default function Chatbot() {
       </div>
 
       {isOpen && (
-        <div className="fixed bottom-4 right-4 z-50 w-[calc(100vw-2rem)] max-w-md">
+        <div className={cn("fixed right-4 z-50 w-[calc(100vw-2rem)] max-w-md", isWorkerRoute ? 'bottom-20' : 'bottom-4')}>
           <Card className="flex flex-col h-[60vh] shadow-2xl">
             <CardHeader className="flex flex-row items-center justify-between">
               <div className="flex items-center gap-3">
