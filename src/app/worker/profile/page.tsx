@@ -106,9 +106,18 @@ export default function WorkerProfilePage() {
                                               id={`skill-${item}`}
                                               checked={field.value.includes(item)}
                                               onCheckedChange={(checked) => {
+                                                  const currentSkills = field.value;
+                                                  if (checked && currentSkills.length >= 2) {
+                                                      toast({
+                                                          variant: "destructive",
+                                                          title: "Limit Reached",
+                                                          description: "You can select a maximum of 2 primary skills.",
+                                                      });
+                                                      return;
+                                                  }
                                                   const newValue = checked
-                                                      ? [...field.value, item]
-                                                      : field.value.filter((value) => value !== item);
+                                                      ? [...currentSkills, item]
+                                                      : currentSkills.filter((value) => value !== item);
                                                   field.onChange(newValue);
                                               }}
                                           />
