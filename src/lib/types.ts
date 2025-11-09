@@ -25,7 +25,7 @@ export type Job = {
   wage: number;
   skills: string[];
   customerId: string;
-  status: 'open' | 'active' | 'completed';
+  status: 'open' | 'active' | 'completed' | 'cancelled';
   workerId?: string;
   startDate?: string;
 };

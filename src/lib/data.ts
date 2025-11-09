@@ -135,6 +135,16 @@ export const mockJobs: Job[] = [
     workerId: 'w1',
     startDate: new Date().toISOString(),
   },
+  {
+    id: 'j6',
+    title: 'Garden Landscaping',
+    description: 'Landscaping for a backyard garden, including planting and creating a walkway.',
+    location: 'Gurugram, India',
+    wage: 800,
+    skills: ['General Labour'],
+    customerId: 'c2',
+    status: 'cancelled',
+  },
 ];
 
 export const mockCustomerAddresses: CustomerAddress[] = [
