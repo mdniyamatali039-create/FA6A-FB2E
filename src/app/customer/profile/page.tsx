@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef, type ChangeEvent } from 'react';
 import dynamic from 'next/dynamic';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -31,6 +31,8 @@ export default function CustomerProfilePage() {
   const { t, language, setLanguage, theme, setTheme } = useApp();
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [addresses, setAddresses] = useState(mockCustomerAddresses);
+  const [avatarUrl, setAvatarUrl] = useState("https://picsum.photos/seed/c-avatar/100/100");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,6 +61,25 @@ export default function CustomerProfilePage() {
     });
   };
 
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarUrl(reader.result as string);
+        toast({
+            title: "Photo Updated",
+            description: "Your profile picture has been updated. Save your profile to apply changes."
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
     <>
       <div className="space-y-8">
@@ -78,10 +99,17 @@ export default function CustomerProfilePage() {
               <CardContent className="space-y-6">
                 <div className="flex items-center gap-4">
                     <Avatar className="h-20 w-20">
-                        <AvatarImage src="https://picsum.photos/seed/c-avatar/100/100" alt="Customer" />
+                        <AvatarImage src={avatarUrl} alt="Customer" />
                         <AvatarFallback>C</AvatarFallback>
                     </Avatar>
-                    <Button variant="outline" type="button">Change Photo</Button>
+                    <Button variant="outline" type="button" onClick={handleAvatarClick}>Change Photo</Button>
+                    <input 
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleFileChange}
+                      accept="image/*"
+                      className="hidden"
+                    />
                 </div>
                 <div className="grid md:grid-cols-2 gap-6">
                   <FormField control={form.control} name="name" render={({ field }) => (
