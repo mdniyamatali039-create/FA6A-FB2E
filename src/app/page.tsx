@@ -13,6 +13,8 @@ import { useApp } from '@/hooks/use-app';
 export default function LandingPage() {
   const { t } = useApp();
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
+  const customerImage = PlaceHolderImages.find(p => p.id === 'customer-landing');
+  const workerImage = PlaceHolderImages.find(p => p.id === 'worker-landing');
 
   const features = [
     {
@@ -106,13 +108,15 @@ export default function LandingPage() {
                 </Button>
               </div>
               <div className="relative h-64 md:h-80 rounded-lg overflow-hidden">
-                <Image
-                  src="https://picsum.photos/seed/customer/600/400"
-                  alt="Customer posting a job"
-                  fill
-                  className="object-cover"
-                  data-ai-hint="construction job"
-                />
+                {customerImage && (
+                  <Image
+                    src={customerImage.imageUrl}
+                    alt={customerImage.description}
+                    fill
+                    className="object-cover"
+                    data-ai-hint={customerImage.imageHint}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -122,13 +126,15 @@ export default function LandingPage() {
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div className="relative h-64 md:h-80 rounded-lg overflow-hidden md:order-2">
-                <Image
-                  src="https://picsum.photos/seed/worker/600/400"
-                  alt="Worker finding a job"
-                  fill
-                  className="object-cover"
-                  data-ai-hint="happy worker"
-                />
+                {workerImage && (
+                  <Image
+                    src={workerImage.imageUrl}
+                    alt={workerImage.description}
+                    fill
+                    className="object-cover"
+                    data-ai-hint={workerImage.imageHint}
+                  />
+                )}
               </div>
               <div className="md:order-1">
                 <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">

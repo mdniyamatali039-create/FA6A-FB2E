@@ -3,8 +3,20 @@
     {
       "id": "hero",
       "description": "A group of construction workers collaborating on a project.",
-      "imageUrl": "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop",
-      "imageHint": "construction workers"
+      "imageUrl": "https://images.unsplash.com/photo-1516216628859-9bccecab13ca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjb25zdHJ1Y3Rpb24lMjB0ZWFtfGVufDB8fHx8MTc2MjY3OTM4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "construction team"
+    },
+    {
+      "id": "customer-landing",
+      "description": "A customer smiling while looking at a newly painted wall.",
+      "imageUrl": "https://images.unsplash.com/photo-1758523671826-d7f8217ffac3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxoYXBweSUyMGhvbWVvd25lcnxlbnwwfHx8fDE3NjI2NzkzODd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "happy homeowner"
+    },
+    {
+      "id": "worker-landing",
+      "description": "A skilled worker wearing a hard hat and holding tools.",
+      "imageUrl": "https://images.unsplash.com/photo-1653146886059-06f022c6edb5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjb25maWRlbnQlMjB3b3JrZXJ8ZW58MHx8fHwxNzYyNjc5Mzg3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "confident worker"
     }
   ]
 }
