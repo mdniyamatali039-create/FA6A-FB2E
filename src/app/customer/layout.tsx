@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LogOut, User } from "lucide-react";
+import { LogOut, User, Cog } from "lucide-react";
 import { DashboardNav } from "@/components/dashboard-nav";
 import { useApp } from "@/hooks/use-app";
 import LanguageSwitcher from "@/components/language-switcher";
@@ -90,7 +90,7 @@ export default function CustomerLayout({
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Link href="/customer/profile">
-                    <User className="mr-2 h-4 w-4" />
+                    <Cog className="mr-2 h-4 w-4" />
                     <span>{t('profile')}</span>
                   </Link>
                 </DropdownMenuItem>
