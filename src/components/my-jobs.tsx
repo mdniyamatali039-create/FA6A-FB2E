@@ -21,12 +21,15 @@ import type { Job } from '@/lib/types';
 
 export default function MyJobs() {
   const { toast } = useToast();
-  const [jobs, setJobs] = useState(mockJobs.filter(j => j.status === 'active' && j.workerId));
+  // Filter for jobs that have a worker assigned, regardless of status for initial data
+  const allHiredJobs = mockJobs.filter(j => j.workerId);
+  const [jobs, setJobs] = useState(allHiredJobs);
   const [jobToCancel, setJobToCancel] = useState<Job | null>(null);
 
   const handleCancelConfirm = () => {
     if (!jobToCancel) return;
     
+    // Instead of removing, we could also change the status
     setJobs(prevJobs => prevJobs.filter(job => job.id !== jobToCancel.id));
     toast({
       title: "Job Cancelled",
@@ -37,17 +40,20 @@ export default function MyJobs() {
   
   const canCancel = (job: Job) => {
     if (!job.startDate) return false;
+    // Allow cancellation if there is more than 1 day difference (i.e., at least 2 days away)
     return differenceInCalendarDays(new Date(job.startDate), new Date()) > 1;
   };
 
-  if (jobs.length === 0) {
+  const activeJobs = jobs.filter(j => j.status === 'active');
+
+  if (activeJobs.length === 0) {
     return <p className="text-sm text-muted-foreground text-center">You have no active jobs with hired workers.</p>;
   }
 
   return (
     <>
       <div className="space-y-4">
-        {jobs.map(job => {
+        {activeJobs.map(job => {
           const worker = mockWorkers.find(w => w.id === job.workerId);
           if (!worker) return null;
 
@@ -67,7 +73,7 @@ export default function MyJobs() {
                 size="sm"
                 onClick={() => setJobToCancel(job)}
                 disabled={!canCancel(job)}
-                title={canCancel(job) ? "Cancel Job" : "Cancellation only allowed up to 1 day before start date"}
+                title={canCancel(job) ? "Cancel Job" : "Cancellation only allowed more than 1 day before start date"}
               >
                 Cancel
               </Button>
