@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
 import { useApp } from "@/hooks/use-app";
-import { Home, PlusCircle, Search, User, Briefcase } from "lucide-react";
+import { Home, PlusCircle, Search, User, Briefcase, Wallet } from "lucide-react";
 
 type NavItem = {
   href: string;
@@ -25,6 +25,7 @@ export function DashboardNav({ role }: { role: 'customer' | 'worker' }) {
     { href: "/customer/dashboard", label: t('dashboard'), icon: <Home /> },
     { href: "/customer/post-job", label: t('customer_dashboard_post_job'), icon: <PlusCircle /> },
     { href: "/customer/find-workers", label: t('customer_dashboard_find_workers'), icon: <Search /> },
+    { href: "/customer/wallet", label: 'Wallet', icon: <Wallet /> },
   ];
 
   const workerNav: NavItem[] = [

@@ -4,11 +4,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, Search, ArrowRight, Wallet, Bell, Star } from 'lucide-react';
+import { PlusCircle, Search, ArrowRight, Bell, Star } from 'lucide-react';
 import { useApp } from '@/hooks/use-app';
 import { mockJobs, mockWorkers } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 
 export default function CustomerDashboardPage() {
     const { t } = useApp();
@@ -33,19 +32,7 @@ export default function CustomerDashboardPage() {
                 </div>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
-                    <CardHeader className="pb-2">
-                        <CardDescription>Wallet Balance</CardDescription>
-                        <CardTitle className="text-3xl">₹1,250</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-xs text-muted-foreground">Available to spend</p>
-                    </CardContent>
-                    <CardFooter>
-                        <Button className="w-full">Add Money</Button>
-                    </CardFooter>
-                </Card>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                  <Card className="flex flex-col justify-center bg-primary text-primary-foreground">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
