@@ -17,6 +17,7 @@ import { useApp } from '@/hooks/use-app';
 import { mockWorkers, primarySkills } from '@/lib/data';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
+import ReadAloudButton from '@/components/read-aloud-button';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -60,8 +61,14 @@ export default function WorkerProfilePage() {
   return (
     <div className="space-y-8">
         <div>
-            <h1 className="text-3xl font-bold font-headline mb-2">{t('worker_profile_title')}</h1>
-            <p className="text-muted-foreground">{t('worker_profile_desc')}</p>
+            <div className="flex items-center gap-2">
+                <h1 className="text-3xl font-bold font-headline mb-2">{t('worker_profile_title')}</h1>
+                <ReadAloudButton text="My Profile" />
+            </div>
+            <div className="flex items-center gap-2">
+              <p className="text-muted-foreground">{t('worker_profile_desc')}</p>
+              <ReadAloudButton text={t('worker_profile_desc')} />
+            </div>
         </div>
       
         <Card>

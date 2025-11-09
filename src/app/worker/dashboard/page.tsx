@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import ReadAloudButton from '@/components/read-aloud-button';
 
 export default function WorkerDashboardPage() {
     const { t } = useApp();
@@ -35,6 +36,7 @@ export default function WorkerDashboardPage() {
           <div className="flex items-center space-x-2">
             <Switch id="online-status" defaultChecked />
             <Label htmlFor="online-status" className="text-lg font-medium">You are Online</Label>
+            <ReadAloudButton text="You are Online" />
           </div>
           <Badge>Verified</Badge>
         </CardContent>
@@ -49,6 +51,7 @@ export default function WorkerDashboardPage() {
             <CardContent>
                 <p className="text-3xl font-bold">{activeJobs} Active</p>
                 <p className="text-muted-foreground">{pendingJobs} Pending</p>
+                <ReadAloudButton text={`${activeJobs} Active jobs and ${pendingJobs} Pending jobs today.`} />
             </CardContent>
         </Card>
         <Card>
@@ -58,6 +61,7 @@ export default function WorkerDashboardPage() {
             <CardContent>
                 <p className="text-3xl font-bold">₹850</p>
                 <p className="text-muted-foreground">From 1 completed job</p>
+                <ReadAloudButton text="Earnings today are 850 rupees from one completed job." />
             </CardContent>
         </Card>
       </div>
@@ -68,7 +72,10 @@ export default function WorkerDashboardPage() {
             <CardTitle className="flex items-center gap-2"><Zap className="h-6 w-6" />AI Job Suggestion</CardTitle>
         </CardHeader>
         <CardContent>
-            <p className="text-lg">You have 3 new nearby jobs that match your skills.</p>
+            <div className="flex items-center gap-2">
+              <p className="text-lg">You have 3 new nearby jobs that match your skills.</p>
+              <ReadAloudButton text="You have 3 new nearby jobs that match your skills." variant="secondary" />
+            </div>
         </CardContent>
         <CardFooter>
             <Button variant="secondary" asChild>

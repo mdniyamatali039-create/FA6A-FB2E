@@ -8,6 +8,7 @@ import { useApp } from '@/hooks/use-app';
 import { mockJobs } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import ReadAloudButton from '@/components/read-aloud-button';
 
 export default function FindJobsPage() {
     const { t } = useApp();
@@ -27,17 +28,21 @@ export default function FindJobsPage() {
 
   return (
     <div className="space-y-8">
-      <div>
+      <div className="flex items-center gap-2">
         <h1 className="text-3xl font-bold font-headline">{t('find_jobs_title')}</h1>
-        <p className="text-muted-foreground">{t('find_jobs_desc')}</p>
+        <ReadAloudButton text="Available Jobs" />
       </div>
+      <p className="text-muted-foreground">{t('find_jobs_desc')}</p>
       
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {openJobs.length > 0 ? (
             openJobs.map(job => (
                 <Card key={job.id} className="flex flex-col">
                     <CardHeader>
-                        <CardTitle>{job.title}</CardTitle>
+                        <div className="flex items-center justify-between">
+                            <CardTitle>{job.title}</CardTitle>
+                            <ReadAloudButton text={`${job.title}, at ${job.location} for ${job.wage} rupees per day. ${job.description}`} />
+                        </div>
                         <div className="flex items-center justify-between text-sm text-muted-foreground pt-1">
                             <span className="flex items-center gap-1"><MapPin className="h-4 w-4" />{job.location}</span>
                             <span className="flex items-center gap-1 font-semibold text-primary"><Wallet className="h-4 w-4" />₹{job.wage}/day</span>
@@ -62,6 +67,7 @@ export default function FindJobsPage() {
         ) : (
             <div className="col-span-full text-center py-12">
                 <p className="text-muted-foreground">No open jobs available right now. Check back later!</p>
+                <ReadAloudButton text="No open jobs available right now. Check back later!" />
             </div>
         )}
       </div>
