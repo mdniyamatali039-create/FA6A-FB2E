@@ -69,7 +69,7 @@ export default function Chatbot() {
   return (
     <>
       <div className={cn("fixed right-4 z-50 transition-transform duration-300 ease-in-out", 
-          isWorkerRoute ? 'bottom-20' : 'bottom-4',
+          isWorkerRoute ? 'bottom-24' : 'bottom-8',
           isOpen ? "translate-y-[200%]" : "translate-y-0"
       )}>
         <Button onClick={() => setIsOpen(true)} size="icon" className="rounded-full w-16 h-16 shadow-lg bg-primary hover:bg-primary/90">
@@ -79,7 +79,7 @@ export default function Chatbot() {
       </div>
 
       {isOpen && (
-        <div className={cn("fixed right-4 z-50 w-[calc(100vw-2rem)] max-w-md", isWorkerRoute ? 'bottom-20' : 'bottom-4')}>
+        <div className={cn("fixed right-4 z-50 w-[calc(100vw-2rem)] max-w-md", isWorkerRoute ? 'bottom-24' : 'bottom-8')}>
           <Card className="flex flex-col h-[60vh] shadow-2xl">
             <CardHeader className="flex flex-row items-center justify-between">
               <div className="flex items-center gap-3">
