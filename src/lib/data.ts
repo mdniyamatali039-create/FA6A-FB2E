@@ -1,3 +1,4 @@
+
 import type { WorkerProfile, Job, CustomerAddress } from './types';
 
 export const primarySkills = [
@@ -108,8 +109,10 @@ export const mockJobs: Job[] = [
     skills: ['Carpentry'],
     customerId: 'c1',
     status: 'active',
+    workerId: 'w3',
+    startDate: new Date(new Date().setDate(new Date().getDate() + 5)).toISOString(),
   },
-    {
+  {
     id: 'j4',
     title: 'Site cleanup',
     description: 'Requires a team of 5 general laborers for a construction site cleanup project. The work will involve debris removal and site organization.',
@@ -118,6 +121,19 @@ export const mockJobs: Job[] = [
     skills: ['General Labour'],
     customerId: 'c3',
     status: 'completed',
+    workerId: 'w5',
+  },
+  {
+    id: 'j5',
+    title: 'Urgent Plumbing Fix',
+    description: 'Leaky pipe under the kitchen sink. Need an urgent fix.',
+    location: 'Delhi, India',
+    wage: 750,
+    skills: ['Plumbing'],
+    customerId: 'c1',
+    status: 'active',
+    workerId: 'w1',
+    startDate: new Date().toISOString(),
   },
 ];
 

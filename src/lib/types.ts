@@ -1,3 +1,4 @@
+
 export type UserRole = 'customer' | 'worker';
 
 export type Language = 'en' | 'hi' | 'bn';
@@ -25,6 +26,8 @@ export type Job = {
   skills: string[];
   customerId: string;
   status: 'open' | 'active' | 'completed';
+  workerId?: string;
+  startDate?: string;
 };
 
 export type CustomerAddress = {

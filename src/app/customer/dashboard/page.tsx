@@ -13,14 +13,14 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import type { WorkerProfile } from '@/lib/types';
 import HireWorkerDialog from '@/components/hire-worker-dialog';
+import MyJobs from '@/components/my-jobs';
 
 export default function CustomerDashboardPage() {
     const { t } = useApp();
     const { toast } = useToast();
     const myJobs = mockJobs.filter(job => job.customerId === 'c1' || job.customerId === 'c2' || job.customerId === 'c3');
     const activeJobs = myJobs.filter(job => job.status === 'active');
-    const pendingJobs = myJobs.filter(job => job.status === 'open');
-    const completedJobs = myJobs.filter(job => job.status === 'completed');
+    
     const recommendedWorkers = mockWorkers.slice(0, 3); // Mock AI recommendations
     
     const [selectedWorker, setSelectedWorker] = useState<WorkerProfile | null>(null);
@@ -80,21 +80,10 @@ export default function CustomerDashboardPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle>My Jobs</CardTitle>
-                            <CardDescription>Your job statuses</CardDescription>
+                            <CardDescription>Your active jobs</CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-2">
-                            <div className="flex justify-between items-center">
-                                <span className="text-muted-foreground">Active</span>
-                                <Badge variant="secondary">{activeJobs.length}</Badge>
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <span className="text-muted-foreground">Pending</span>
-                                <Badge variant="secondary">{pendingJobs.length}</Badge>
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <span className="text-muted-foreground">Completed</span>
-                                <Badge variant="secondary">{completedJobs.length}</Badge>
-                            </div>
+                        <CardContent>
+                           <MyJobs />
                         </CardContent>
                     </Card>
                 </div>
