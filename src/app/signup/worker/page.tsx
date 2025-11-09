@@ -21,6 +21,8 @@ import type { Language } from '@/lib/types';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
+import { Navigation, Loader2 } from 'lucide-react';
+import { useState } from 'react';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -39,6 +41,7 @@ export default function WorkerSignupPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { t, language, setLanguage } = useApp();
+  const [isFetchingLocation, setIsFetchingLocation] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,6 +69,38 @@ export default function WorkerSignupPage() {
     }, 1500);
   }
 
+  const handleGetCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      toast({ variant: 'destructive', title: 'Geolocation is not supported by your browser.' });
+      return;
+    }
+
+    setIsFetchingLocation(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+          const data = await response.json();
+          if (data && data.display_name) {
+            form.setValue('location', data.display_name);
+            toast({ title: 'Location Updated!', description: 'Your current location has been set.' });
+          } else {
+            toast({ variant: 'destructive', title: 'Error', description: 'Could not find address for your location.' });
+          }
+        } catch (error) {
+          toast({ variant: 'destructive', title: 'Error', description: 'Failed to fetch address.' });
+        } finally {
+          setIsFetchingLocation(false);
+        }
+      },
+      () => {
+        toast({ variant: 'destructive', title: 'Permission Denied', description: 'Unable to retrieve your location.' });
+        setIsFetchingLocation(false);
+      }
+    );
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-secondary p-4">
       <Card className="w-full max-w-2xl my-8">
@@ -90,7 +125,24 @@ export default function WorkerSignupPage() {
                   <FormItem><FormLabel>{t('signup_form_experience')}</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select experience" /></SelectTrigger></FormControl><SelectContent><SelectItem value="<1 year">&lt; 1 year</SelectItem><SelectItem value="1-3 years">1-3 years</SelectItem><SelectItem value="3-5 years">3-5 years</SelectItem><SelectItem value="5+ years">5+ years</SelectItem></SelectContent></Select><FormMessage /></FormItem>
                 )}/>
                 <FormField control={form.control} name="location" render={({ field }) => (
-                  <FormItem><FormLabel>{t('signup_form_location')}</FormLabel><FormControl><Input placeholder="e.g., Delhi, India" {...field} /></FormControl><FormMessage /></FormItem>
+                  <FormItem>
+                    <FormLabel>{t('signup_form_location')}</FormLabel>
+                    <div className="relative">
+                      <FormControl><Input placeholder="e.g., Delhi, India" {...field} className="pr-10" /></FormControl>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+                        onClick={handleGetCurrentLocation}
+                        disabled={isFetchingLocation}
+                      >
+                        {isFetchingLocation ? <Loader2 className="animate-spin" /> : <Navigation className="h-4 w-4" />}
+                        <span className="sr-only">Use current location</span>
+                      </Button>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
                 )}/>
               </div>
 
