@@ -15,6 +15,7 @@ export type WorkerProfile = {
   language: Language;
   avatarUrl: string;
   rating?: number;
+  currentCityExperience?: string;
 };
 
 export type Job = {

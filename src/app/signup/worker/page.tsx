@@ -29,6 +29,7 @@ const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   mobile: z.string().length(10, { message: "Mobile number must be 10 digits." }),
   experience: z.string().min(1, { message: "Please select your experience level." }),
+  currentCityExperience: z.string().min(1, { message: "Please select your experience level in the current city." }),
   location: z.string().min(3, { message: "Please enter your location." }),
   primarySkills: z.array(z.string()).refine(value => value.some(item => item), {
     message: "You have to select at least one primary skill.",
@@ -50,6 +51,7 @@ export default function WorkerSignupPage() {
       name: "",
       mobile: "",
       experience: "",
+      currentCityExperience: "",
       location: "",
       primarySkills: [],
       secondarySkills: "",
@@ -149,8 +151,26 @@ export default function WorkerSignupPage() {
                     <Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select experience" /></SelectTrigger></FormControl><SelectContent><SelectItem value="<1 year">&lt; 1 year</SelectItem><SelectItem value="1-3 years">1-3 years</SelectItem><SelectItem value="3-5 years">3-5 years</SelectItem><SelectItem value="5+ years">5+ years</SelectItem></SelectContent></Select><FormMessage />
                   </FormItem>
                 )}/>
+                <FormField control={form.control} name="currentCityExperience" render={({ field }) => (
+                    <FormItem>
+                        <div className="flex items-center gap-2">
+                            <FormLabel>Current City Experience</FormLabel>
+                            <ReadAloudButton text="Current City Experience" />
+                        </div>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl><SelectTrigger><SelectValue placeholder="Select experience" /></SelectTrigger></FormControl>
+                            <SelectContent>
+                                <SelectItem value="<1 year">&lt; 1 year</SelectItem>
+                                <SelectItem value="1-3 years">1-3 years</SelectItem>
+                                <SelectItem value="3-5 years">3-5 years</SelectItem>
+                                <SelectItem value="5+ years">5+ years</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <FormMessage />
+                    </FormItem>
+                )}/>
                 <FormField control={form.control} name="location" render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="md:col-span-2">
                     <div className="flex items-center gap-2">
                         <FormLabel>{t('signup_form_location')}</FormLabel>
                         <ReadAloudButton text={t('signup_form_location')} />
