@@ -8,14 +8,23 @@ import { PlusCircle, Search, ArrowRight, Bell, Star } from 'lucide-react';
 import { useApp } from '@/hooks/use-app';
 import { mockJobs, mockWorkers } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
 
 export default function CustomerDashboardPage() {
     const { t } = useApp();
+    const { toast } = useToast();
     const myJobs = mockJobs.filter(job => job.customerId === 'c1' || job.customerId === 'c2' || job.customerId === 'c3');
     const activeJobs = myJobs.filter(job => job.status === 'active');
     const pendingJobs = myJobs.filter(job => job.status === 'open');
     const completedJobs = myJobs.filter(job => job.status === 'completed');
     const recommendedWorkers = mockWorkers.slice(0, 3); // Mock AI recommendations
+
+    const handleHire = (name: string) => {
+        toast({
+          title: "Worker Hired!",
+          description: `You have hired ${name}.`
+        });
+    }
 
     return (
         <div className="space-y-8">
@@ -103,7 +112,7 @@ export default function CustomerDashboardPage() {
                                 <p className="text-sm text-muted-foreground">{worker.experience} &bull; {worker.location}</p>
                             </CardContent>
                             <CardFooter>
-                                <Button className="w-full">View Profile</Button>
+                                <Button className="w-full" onClick={() => handleHire(worker.name)}>Hire Now</Button>
                             </CardFooter>
                         </Card>
                     ))}
