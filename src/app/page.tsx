@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Briefcase, UserCheck, Wallet, Bot, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Briefcase, UserCheck, Wallet, Bot, ShieldCheck, FileText, Users, CreditCard } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import MainNav from '@/components/main-nav';
 import { useApp } from '@/hooks/use-app';
@@ -31,6 +31,24 @@ export default function LandingPage() {
       icon: <ShieldCheck className="h-10 w-10 text-primary" />,
       title: t('landing_feature3_title'),
       description: t('landing_feature3_desc'),
+    },
+  ];
+
+  const howItWorks = [
+    {
+      icon: <FileText className="h-10 w-10 text-primary" />,
+      title: t('landing_how_it_works_step1_title'),
+      description: t('landing_how_it_works_step1_desc'),
+    },
+    {
+      icon: <Users className="h-10 w-10 text-primary" />,
+      title: t('landing_how_it_works_step2_title'),
+      description: t('landing_how_it_works_step2_desc'),
+    },
+    {
+      icon: <CreditCard className="h-10 w-10 text-primary" />,
+      title: t('landing_how_it_works_step3_title'),
+      description: t('landing_how_it_works_step3_desc'),
     },
   ];
 
@@ -91,7 +109,30 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="py-16 md:py-24 bg-secondary">
+        <section id="how-it-works" className="py-16 md:py-24 bg-secondary">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl md:text-4xl font-headline font-bold text-center mb-12">
+              {t('landing_how_it_works_title')}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {howItWorks.map((step, index) => (
+                <Card key={index} className="text-center shadow-md hover:shadow-lg transition-shadow bg-card">
+                  <CardHeader>
+                    <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit">
+                      {step.icon}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <h3 className="text-xl font-bold mb-2">{step.title}</h3>
+                    <p className="text-muted-foreground">{step.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-16 md:py-24 bg-background">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
@@ -101,7 +142,7 @@ export default function LandingPage() {
                 <p className="text-muted-foreground mb-6">
                   {t('landing_for_customers_desc')}
                 </p>
-                <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground">
                   <Link href="/signup/customer">
                     {t('landing_for_customers_cta')} <ArrowRight className="ml-2" />
                   </Link>
@@ -122,7 +163,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="py-16 md:py-24 bg-background">
+        <section className="py-16 md:py-24 bg-secondary">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div className="relative h-64 md:h-80 rounded-lg overflow-hidden md:order-2">
