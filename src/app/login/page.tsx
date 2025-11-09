@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -10,6 +11,7 @@ import type { UserRole } from '@/lib/types';
 import Logo from '@/components/logo';
 import { useApp } from '@/hooks/use-app';
 import LanguageSwitcher from '@/components/language-switcher';
+import ReadAloudButton from '@/components/read-aloud-button';
 
 export default function LoginPage() {
   const [role, setRole] = useState<UserRole>('worker');
@@ -25,8 +27,14 @@ export default function LoginPage() {
           <div className="flex justify-center mb-4">
             <Logo />
           </div>
-          <CardTitle className="text-2xl font-headline">{t('login_title')}</CardTitle>
-          <CardDescription>{t('login_subtitle')}</CardDescription>
+          <div className="flex items-center justify-center gap-2">
+            <CardTitle className="text-2xl font-headline">{t('login_title')}</CardTitle>
+            <ReadAloudButton text={t('login_title')} />
+          </div>
+          <div className="flex items-center justify-center gap-2">
+            <CardDescription>{t('login_subtitle')}</CardDescription>
+            <ReadAloudButton text={t('login_subtitle')} />
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
           <RadioGroup defaultValue={role} onValueChange={(value: UserRole) => setRole(value)} className="grid grid-cols-2 gap-4">
@@ -36,7 +44,10 @@ export default function LoginPage() {
                 htmlFor="worker"
                 className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
               >
-                {t('role_worker')}
+                <div className="flex items-center gap-2">
+                    {t('role_worker')}
+                    <ReadAloudButton text={t('role_worker')} />
+                </div>
               </Label>
             </div>
             <div>
@@ -45,7 +56,10 @@ export default function LoginPage() {
                 htmlFor="customer"
                 className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
               >
-                {t('role_customer')}
+                <div className="flex items-center gap-2">
+                    {t('role_customer')}
+                    <ReadAloudButton text={t('role_customer')} />
+                </div>
               </Label>
             </div>
           </RadioGroup>
