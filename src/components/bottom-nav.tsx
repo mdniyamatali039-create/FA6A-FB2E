@@ -1,0 +1,44 @@
+
+"use client";
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Home, Briefcase, Wallet, MessageSquare, User } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useApp } from '@/hooks/use-app';
+
+export default function BottomNav() {
+    const pathname = usePathname();
+    const { t } = useApp();
+
+    const navItems = [
+        { href: "/worker/dashboard", label: t('dashboard'), icon: <Home /> },
+        { href: "/worker/find-jobs", label: t('worker_dashboard_find_jobs'), icon: <Briefcase /> },
+        { href: "/worker/earnings", label: 'Wallet', icon: <Wallet /> },
+        { href: "/worker/chat", label: 'Chat', icon: <MessageSquare /> },
+        { href: "/worker/profile", label: t('worker_dashboard_my_profile'), icon: <User /> },
+    ];
+    
+    return (
+        <nav className="fixed bottom-0 left-0 right-0 z-20 border-t bg-background shadow-t-md md:hidden">
+            <div className="grid h-16 grid-cols-5 items-center justify-center">
+                {navItems.map((item) => {
+                    const isActive = pathname.startsWith(item.href);
+                    return (
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            className={cn(
+                                "flex flex-col items-center justify-center gap-1 text-muted-foreground transition-colors",
+                                isActive ? "text-primary font-semibold" : "hover:text-primary"
+                            )}
+                        >
+                            {item.icon}
+                            <span className="text-xs">{item.label}</span>
+                        </Link>
+                    );
+                })}
+            </div>
+        </nav>
+    )
+}

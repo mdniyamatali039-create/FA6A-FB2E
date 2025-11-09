@@ -9,7 +9,7 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
 import { useApp } from "@/hooks/use-app";
-import { Home, PlusCircle, Search, User, Briefcase, Wallet, Cog, FileText } from "lucide-react";
+import { Home, PlusCircle, Search, User, Briefcase, Wallet, Cog, FileText, MessageSquare } from "lucide-react";
 
 type NavItem = {
   href: string;
@@ -34,6 +34,8 @@ export function DashboardNav({ role }: { role: 'customer' | 'worker' }) {
   const workerNav: NavItem[] = [
     { href: "/worker/dashboard", label: t('dashboard'), icon: <Home /> },
     { href: "/worker/find-jobs", label: t('worker_dashboard_find_jobs'), icon: <Briefcase /> },
+    { href: "/worker/earnings", label: 'Wallet', icon: <Wallet /> },
+    { href: "/worker/chat", label: 'Chat', icon: <MessageSquare /> },
     { href: "/worker/profile", label: t('worker_dashboard_my_profile'), icon: <User /> },
   ];
 
@@ -45,7 +47,7 @@ export function DashboardNav({ role }: { role: 'customer' | 'worker' }) {
         <SidebarMenuItem key={item.href}>
           <SidebarMenuButton
             asChild
-            isActive={item.isActive ? item.isActive(pathname) : pathname === item.href}
+            isActive={item.isActive ? item.isActive(pathname) : pathname.startsWith(item.href)}
             tooltip={{children: item.label}}
           >
             <Link href={item.href}>

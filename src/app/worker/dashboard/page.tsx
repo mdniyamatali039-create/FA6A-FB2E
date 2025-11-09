@@ -2,100 +2,93 @@
 "use client";
 
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Briefcase, User, ArrowRight, MapPin, Edit, Star, Cog } from 'lucide-react';
+import { Briefcase, User, ArrowRight, MapPin, Edit, Star, Cog, BarChart, MessageSquare, Wallet, Zap } from 'lucide-react';
 import { useApp } from '@/hooks/use-app';
 import { mockJobs, mockWorkers } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 export default function WorkerDashboardPage() {
     const { t } = useApp();
-    const activeJobs = mockJobs.filter(job => job.status === 'active');
+    const activeJobs = mockJobs.filter(job => job.status === 'active' && job.workerId === mockWorkers[0].id).length;
+    const pendingJobs = mockJobs.filter(job => job.status === 'open' && job.workerId === mockWorkers[0].id).length; // Assuming some jobs can be pending for a worker
     const worker = mockWorkers[0]; // Use a mock worker for display
 
+    const quickButtons = [
+        { href: "/worker/find-jobs", label: "Find Job", icon: <Briefcase /> },
+        { href: "/worker/my-jobs", label: "My Jobs", icon: <MapPin /> },
+        { href: "/worker/earnings", label: "My Earnings", icon: <BarChart /> },
+        { href: "/worker/chat", label: "Messages", icon: <MessageSquare /> },
+    ];
+
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold font-headline">{t('dashboard')}</h1>
-        <p className="text-muted-foreground">{t('worker_dashboard_welcome')}</p>
-      </div>
+    <div className="space-y-6 pb-24">
+      {/* Header moved to layout */}
 
+      {/* Online/Offline Toggle */}
+      <Card>
+        <CardContent className="pt-6 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Switch id="online-status" defaultChecked />
+            <Label htmlFor="online-status" className="text-lg font-medium">You are Online</Label>
+          </div>
+          <Badge>Verified</Badge>
+        </CardContent>
+      </Card>
+      
+      {/* Main Widgets */}
       <div className="grid gap-6 md:grid-cols-2">
-        <Card className="flex flex-col hover:shadow-md transition-shadow">
-            <CardHeader className="flex flex-row items-center gap-4">
-                <Briefcase className="h-8 w-8 text-primary" />
-                <div>
-                    <CardTitle>{t('worker_dashboard_find_jobs')}</CardTitle>
-                    <CardDescription>Browse and apply for jobs near you.</CardDescription>
-                </div>
-            </CardHeader>
-            <CardContent className="flex-grow flex items-end">
-                <Button asChild>
-                    <Link href="/worker/find-jobs">{t('worker_dashboard_find_jobs')} <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                </Button>
-            </CardContent>
-        </Card>
-        
-        <Card className="hover:shadow-md transition-shadow">
+        <Card>
             <CardHeader>
-                <div className="flex items-center justify-between">
-                    <CardTitle>{t('worker_dashboard_my_profile')}</CardTitle>
-                    <Button variant="outline" size="sm" asChild>
-                        <Link href="/worker/profile"><Edit className="mr-2 h-4 w-4" /> Edit Profile</Link>
-                    </Button>
-                </div>
-                 <div className="flex items-center gap-4 pt-4">
-                    <Image src={worker.avatarUrl} alt={worker.name} width={64} height={64} className="rounded-full" />
-                    <div>
-                        <h3 className="font-bold text-lg">{worker.name}</h3>
-                        <p className="text-sm text-muted-foreground">{worker.location}</p>
-                    </div>
-                </div>
+                <CardTitle>Today's Jobs</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
-               <div className="flex flex-wrap gap-2">
-                    {worker.primarySkills.map(skill => (
-                        <Badge key={skill}>{skill}</Badge>
-                    ))}
-                </div>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <span>{worker.experience}</span>
-                    <div className="flex items-center gap-1 font-bold text-amber-500">
-                        <Star className="w-4 h-4 fill-current" />
-                        <span>{worker.rating}</span>
-                    </div>
-                </div>
+            <CardContent>
+                <p className="text-3xl font-bold">{activeJobs} Active</p>
+                <p className="text-muted-foreground">{pendingJobs} Pending</p>
             </CardContent>
         </Card>
-
+        <Card>
+            <CardHeader>
+                <CardTitle>Earnings Today</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <p className="text-3xl font-bold">₹850</p>
+                <p className="text-muted-foreground">From 1 completed job</p>
+            </CardContent>
+        </Card>
       </div>
 
+      {/* AI Job Suggestion Card */}
+      <Card className="bg-primary text-primary-foreground">
+        <CardHeader>
+            <CardTitle className="flex items-center gap-2"><Zap className="h-6 w-6" />AI Job Suggestion</CardTitle>
+        </CardHeader>
+        <CardContent>
+            <p className="text-lg">You have 3 new nearby jobs that match your skills.</p>
+        </CardContent>
+        <CardFooter>
+            <Button variant="secondary" asChild>
+                <Link href="/worker/find-jobs?tab=suggestions">View Suggestions <ArrowRight className="ml-2" /></Link>
+            </Button>
+        </CardFooter>
+      </Card>
+
+      {/* Quick Buttons */}
        <div>
-        <h2 className="text-2xl font-bold font-headline mb-4">{t('worker_dashboard_active_jobs')}</h2>
-        <div className="grid gap-6">
-            {activeJobs.length > 0 ? (
-                activeJobs.map(job => (
-                    <Card key={job.id}>
-                        <CardHeader>
-                            <CardTitle>{job.title}</CardTitle>
-                            <CardDescription className="flex items-center gap-1"><MapPin className="h-4 w-4" />{job.location}</CardDescription>
-                        </CardHeader>
-                        <CardContent className="flex justify-end">
-                            <Button onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(job.location)}`, '_blank')}>
-                                {t('navigate')}
-                            </Button>
-                        </CardContent>
-                    </Card>
-                ))
-            ) : (
-                <Card>
-                    <CardContent className="pt-6">
-                        <p className="text-muted-foreground">You have no active jobs.</p>
-                    </CardContent>
-                </Card>
-            )}
+        <h2 className="text-xl font-bold font-headline mb-4">Quick Actions</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {quickButtons.map(btn => (
+                 <Button key={btn.href} variant="outline" className="h-24 flex-col gap-2 text-base" asChild>
+                    <Link href={btn.href}>
+                        {btn.icon}
+                        <span>{btn.label}</span>
+                    </Link>
+                </Button>
+            ))}
         </div>
       </div>
     </div>
