@@ -109,8 +109,8 @@ export default function CustomerProfilePage() {
             
             <Card>
               <CardHeader>
-                  <CardTitle>Address</CardTitle>
-                  <CardDescription>Manage your work address for job postings.</CardDescription>
+                  <CardTitle>Work Address</CardTitle>
+                  <CardDescription>Manage your default address for job postings.</CardDescription>
               </CardHeader>
               <CardContent>
                   <FormField
@@ -118,10 +118,10 @@ export default function CustomerProfilePage() {
                     name="workAddress"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Work Address</FormLabel>
+                        <FormLabel>Address</FormLabel>
                         <div className="flex gap-2">
                           <FormControl>
-                            <Input placeholder="123 Main St, Anytown" {...field} />
+                            <Input placeholder="Enter your work address" {...field} />
                           </FormControl>
                           <Button variant="outline" size="icon" type="button" onClick={() => setIsMapOpen(true)}>
                             <MapPin className="h-5 w-5" />
