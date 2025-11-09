@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Briefcase, UserCheck, Wallet, Bot, ShieldCheck, FileText, Users, CreditCard } from 'lucide-react';
+import { ArrowRight, Briefcase, UserCheck, Wallet, Bot, ShieldCheck, FileText, Users, CreditCard, Search, Zap, MapPin, BadgeCheck, MessageSquare, IndianRupee } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import MainNav from '@/components/main-nav';
 import { useApp } from '@/hooks/use-app';
@@ -18,19 +18,34 @@ export default function LandingPage() {
 
   const features = [
     {
-      icon: <UserCheck className="h-10 w-10 text-primary" />,
+      icon: <Search className="h-10 w-10 text-primary" />,
       title: t('landing_feature1_title'),
       description: t('landing_feature1_desc'),
     },
     {
-      icon: <Bot className="h-10 w-10 text-primary" />,
+      icon: <Zap className="h-10 w-10 text-primary" />,
       title: t('landing_feature2_title'),
       description: t('landing_feature2_desc'),
     },
     {
-      icon: <ShieldCheck className="h-10 w-10 text-primary" />,
+      icon: <MapPin className="h-10 w-10 text-primary" />,
       title: t('landing_feature3_title'),
       description: t('landing_feature3_desc'),
+    },
+    {
+      icon: <BadgeCheck className="h-10 w-10 text-primary" />,
+      title: t('landing_feature4_title'),
+      description: t('landing_feature4_desc'),
+    },
+    {
+      icon: <MessageSquare className="h-10 w-10 text-primary" />,
+      title: t('landing_feature5_title'),
+      description: t('landing_feature5_desc'),
+    },
+    {
+      icon: <IndianRupee className="h-10 w-10 text-primary" />,
+      title: t('landing_feature6_title'),
+      description: t('landing_feature6_desc'),
     },
   ];
 
@@ -91,7 +106,7 @@ export default function LandingPage() {
             <h2 className="text-3xl md:text-4xl font-headline font-bold text-center mb-12">
               {t('landing_why_choose_us_title')}
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {features.map((feature, index) => (
                 <Card key={index} className="text-center shadow-md hover:shadow-lg transition-shadow">
                   <CardHeader>
