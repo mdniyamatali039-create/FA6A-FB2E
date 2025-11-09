@@ -1,8 +1,9 @@
+
 "use client";
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { MapPin, Wallet, ArrowRight, Navigation } from 'lucide-react';
+import { MapPin, Wallet, ArrowRight } from 'lucide-react';
 import { useApp } from '@/hooks/use-app';
 import { mockJobs } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
@@ -50,7 +51,7 @@ export default function FindJobsPage() {
                     </CardContent>
                     <CardFooter className="grid grid-cols-2 gap-2">
                         <Button variant="outline" onClick={() => handleNavigate(job.location)}>
-                           <Navigation className="mr-2 h-4 w-4" /> {t('navigate')}
+                           Navigate
                         </Button>
                         <Button className="bg-accent hover:bg-accent/90 text-accent-foreground" onClick={() => handleApply(job.title)}>
                            {t('apply')} <ArrowRight className="ml-2 h-4 w-4" />
