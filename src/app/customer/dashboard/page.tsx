@@ -18,8 +18,6 @@ import MyJobs from '@/components/my-jobs';
 export default function CustomerDashboardPage() {
     const { t } = useApp();
     const { toast } = useToast();
-    const myJobs = mockJobs.filter(job => job.customerId === 'c1' || job.customerId === 'c2' || job.customerId === 'c3');
-    const activeJobs = myJobs.filter(job => job.status === 'active');
     
     const recommendedWorkers = mockWorkers.slice(0, 3); // Mock AI recommendations
     
@@ -69,8 +67,8 @@ export default function CustomerDashboardPage() {
                     </Card>
                     <Card>
                         <CardHeader>
-                            <CardTitle>My Jobs</CardTitle>
-                            <CardDescription>Your active jobs</CardDescription>
+                            <CardTitle>Hired Workers</CardTitle>
+                            <CardDescription>Your active jobs with hired workers.</CardDescription>
                         </CardHeader>
                         <CardContent>
                            <MyJobs />
