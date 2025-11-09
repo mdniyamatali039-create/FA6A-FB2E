@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter } from 'next/navigation';
@@ -14,6 +15,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useApp } from '@/hooks/use-app';
 import { mockWorkers, primarySkills } from '@/lib/data';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { Badge } from '@/components/ui/badge';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -80,22 +83,50 @@ export default function WorkerProfilePage() {
                     )}/>
                 </div>
 
-                <FormField control={form.control} name="primarySkills" render={() => (
-                    <FormItem><FormLabel>{t('signup_form_primary_skills')}</FormLabel>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {primarySkills.map((item) => (
-                    <FormField key={item} control={form.control} name="primarySkills" render={({ field }) => (
-                        <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
-                        <FormControl><Checkbox checked={field.value?.includes(item)} onCheckedChange={(checked) => {
-                            return checked ? field.onChange([...field.value, item]) : field.onChange(field.value?.filter((value) => value !== item));
-                        }}/></FormControl>
-                        <FormLabel className="font-normal">{item}</FormLabel>
-                        </FormItem>
-                    )}/>
-                    ))}
-                    </div>
-                    <FormMessage />
-                    </FormItem>
+                <FormField control={form.control} name="primarySkills" render={({ field }) => (
+                  <FormItem>
+                      <FormLabel>{t('signup_form_primary_skills')}</FormLabel>
+                      <Dialog>
+                          <DialogTrigger asChild>
+                              <Button variant="outline" className="w-full justify-start text-left font-normal h-auto">
+                                  <div className="flex gap-2 flex-wrap items-center">
+                                      {field.value.length === 0 && <span className="text-muted-foreground">Select your primary skills</span>}
+                                      {field.value.map(skill => <Badge key={skill}>{skill}</Badge>)}
+                                  </div>
+                              </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                              <DialogHeader>
+                                  <DialogTitle>Select Primary Skills</DialogTitle>
+                              </DialogHeader>
+                              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 py-4">
+                                  {primarySkills.map((item) => (
+                                      <div key={item} className="flex items-center space-x-2">
+                                          <Checkbox
+                                              id={`skill-${item}`}
+                                              checked={field.value.includes(item)}
+                                              onCheckedChange={(checked) => {
+                                                  const newValue = checked
+                                                      ? [...field.value, item]
+                                                      : field.value.filter((value) => value !== item);
+                                                  field.onChange(newValue);
+                                              }}
+                                          />
+                                          <label htmlFor={`skill-${item}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                              {item}
+                                          </label>
+                                      </div>
+                                  ))}
+                              </div>
+                              <DialogFooter>
+                                  <DialogClose asChild>
+                                      <Button type="button">Done</Button>
+                                  </DialogClose>
+                              </DialogFooter>
+                          </DialogContent>
+                      </Dialog>
+                      <FormMessage />
+                  </FormItem>
                 )}/>
                 
                 <FormField control={form.control} name="secondarySkills" render={({ field }) => (
