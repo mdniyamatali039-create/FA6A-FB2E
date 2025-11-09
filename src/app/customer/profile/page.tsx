@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
@@ -49,57 +49,54 @@ export default function CustomerProfilePage() {
         <p className="text-muted-foreground">Manage your profile details.</p>
       </div>
       
-      <Card>
-        <CardContent className="pt-6">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <div className="flex items-center gap-4">
-                    <Avatar className="h-20 w-20">
-                        <AvatarImage src="https://picsum.photos/seed/c-avatar/100/100" alt="Customer" />
-                        <AvatarFallback>C</AvatarFallback>
-                    </Avatar>
-                    <Button variant="outline" type="button">Change Photo</Button>
-                </div>
-              <div className="grid md:grid-cols-2 gap-8">
-                <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Personal Information</CardTitle>
+              <CardDescription>Update your name, email, and mobile number.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center gap-4">
+                  <Avatar className="h-20 w-20">
+                      <AvatarImage src="https://picsum.photos/seed/c-avatar/100/100" alt="Customer" />
+                      <AvatarFallback>C</AvatarFallback>
+                  </Avatar>
+                  <Button variant="outline" type="button">Change Photo</Button>
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                <FormField control={form.control} name="name" render={({ field }) => (
                     <FormItem>
                         <FormLabel>{t('signup_form_name')}</FormLabel>
-                        <FormControl>
-                        <Input placeholder="John Doe" {...field} />
-                        </FormControl>
+                        <FormControl><Input placeholder="John Doe" {...field} /></FormControl>
                         <FormMessage />
                     </FormItem>
-                    )}
-                />
-                 <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
+                )}/>
+                 <FormField control={form.control} name="email" render={({ field }) => (
                     <FormItem>
                         <FormLabel>Email</FormLabel>
-                        <FormControl>
-                        <Input type="email" placeholder="you@example.com" {...field} />
-                        </FormControl>
+                        <FormControl><Input type="email" placeholder="you@example.com" {...field} /></FormControl>
                         <FormMessage />
                     </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="mobile"
-                    render={({ field }) => (
+                )}/>
+                <FormField control={form.control} name="mobile" render={({ field }) => (
                     <FormItem>
                         <FormLabel>{t('signup_form_mobile')}</FormLabel>
-                        <FormControl>
-                        <Input type="tel" placeholder="9876543210" {...field} />
-                        </FormControl>
+                        <FormControl><Input type="tel" placeholder="9876543210" {...field} /></FormControl>
                         <FormMessage />
                     </FormItem>
-                    )}
-                />
+                )}/>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader>
+                <CardTitle>Address</CardTitle>
+                <CardDescription>Manage your work address for job postings.</CardDescription>
+            </CardHeader>
+            <CardContent>
                 <FormField
                   control={form.control}
                   name="workAddress"
@@ -119,12 +116,12 @@ export default function CustomerProfilePage() {
                     </FormItem>
                   )}
                 />
-              </div>
-              <Button type="submit" size="lg">{t('save_changes')}</Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+
+          <Button type="submit" size="lg">{t('save_changes')}</Button>
+        </form>
+      </Form>
     </div>
   );
 }
