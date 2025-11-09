@@ -6,7 +6,6 @@ import dynamic from 'next/dynamic';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -14,7 +13,8 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { useApp } from '@/hooks/use-app';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { MapPin } from 'lucide-react';
+import { MapPin, PlusCircle, Trash2 } from 'lucide-react';
+import { mockCustomerAddresses } from '@/lib/data';
 
 const MapPicker = dynamic(() => import('@/components/map-picker'), { ssr: false });
 
@@ -22,13 +22,13 @@ const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email."}),
   mobile: z.string().length(10, { message: "Mobile number must be 10 digits." }),
-  workAddress: z.string().optional(),
 });
 
 export default function CustomerProfilePage() {
   const { toast } = useToast();
   const { t } = useApp();
   const [isMapOpen, setIsMapOpen] = useState(false);
+  const [addresses, setAddresses] = useState(mockCustomerAddresses);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -36,7 +36,6 @@ export default function CustomerProfilePage() {
       name: "Customer Name",
       mobile: "9876543210",
       email: "customer@example.com",
-      workAddress: "123 Business Rd, New Delhi",
     },
   });
 
@@ -49,11 +48,12 @@ export default function CustomerProfilePage() {
   }
 
   const handleLocationSelect = (address: string) => {
-    form.setValue('workAddress', address);
+    const newAddress = { id: `addr${addresses.length + 1}`, address };
+    setAddresses(prev => [...prev, newAddress]);
     setIsMapOpen(false);
     toast({
-      title: "Location Set!",
-      description: "Work address has been updated.",
+      title: "Address Added!",
+      description: "New work address has been saved.",
     });
   };
 
@@ -104,38 +104,40 @@ export default function CustomerProfilePage() {
                       </FormItem>
                   )}/>
                 </div>
+                <Button type="submit">Save Personal Info</Button>
               </CardContent>
             </Card>
             
             <Card>
-              <CardHeader>
-                  <CardTitle>Work Address</CardTitle>
-                  <CardDescription>Manage your default address for job postings.</CardDescription>
+              <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>Saved Addresses</CardTitle>
+                    <CardDescription>Manage your addresses for job postings.</CardDescription>
+                  </div>
+                   <Button variant="outline" type="button" onClick={() => setIsMapOpen(true)}>
+                      <PlusCircle className="mr-2 h-4 w-4" /> Add New Address
+                  </Button>
               </CardHeader>
-              <CardContent>
-                  <FormField
-                    control={form.control}
-                    name="workAddress"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Address</FormLabel>
-                        <div className="flex gap-2">
-                          <FormControl>
-                            <Input placeholder="Enter your work address" {...field} />
-                          </FormControl>
-                          <Button variant="outline" size="icon" type="button" onClick={() => setIsMapOpen(true)}>
-                            <MapPin className="h-5 w-5" />
-                            <span className="sr-only">Pin on map</span>
-                          </Button>
+              <CardContent className="space-y-4">
+                  {addresses.length > 0 ? (
+                      addresses.map((addr) => (
+                        <div key={addr.id} className="flex items-center justify-between rounded-md border p-4">
+                            <div className="flex items-center gap-3">
+                                <MapPin className="h-5 w-5 text-muted-foreground"/>
+                                <span>{addr.address}</span>
+                            </div>
+                            <Button variant="ghost" size="icon" onClick={() => setAddresses(addresses.filter(a => a.id !== addr.id))}>
+                                <Trash2 className="h-4 w-4 text-destructive" />
+                                <span className="sr-only">Delete address</span>
+                            </Button>
                         </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      ))
+                  ) : (
+                      <p className="text-muted-foreground text-sm py-4 text-center">You have no saved addresses.</p>
+                  )}
               </CardContent>
             </Card>
 
-            <Button type="submit" size="lg">{t('save_changes')}</Button>
           </form>
         </Form>
       </div>

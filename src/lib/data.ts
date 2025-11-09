@@ -1,4 +1,4 @@
-import type { WorkerProfile, Job } from './types';
+import type { WorkerProfile, Job, CustomerAddress } from './types';
 
 export const primarySkills = [
   'Masonry',
@@ -119,4 +119,9 @@ export const mockJobs: Job[] = [
     customerId: 'c3',
     status: 'completed',
   },
+];
+
+export const mockCustomerAddresses: CustomerAddress[] = [
+  { id: 'addr1', address: '123 Business Rd, Connaught Place, New Delhi, Delhi 110001, India' },
+  { id: 'addr2', address: '456 Home Ave, Sector 29, Gurugram, Haryana 122022, India' },
 ];

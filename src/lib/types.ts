@@ -26,3 +26,8 @@ export type Job = {
   customerId: string;
   status: 'open' | 'active' | 'completed';
 };
+
+export type CustomerAddress = {
+  id: string;
+  address: string;
+};
