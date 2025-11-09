@@ -23,6 +23,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { Badge } from '@/components/ui/badge';
 import { Navigation, Loader2 } from 'lucide-react';
 import { useState } from 'react';
+import ReadAloudButton from '@/components/read-aloud-button';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -108,25 +109,52 @@ export default function WorkerSignupPage() {
           <div className="flex justify-center mb-4">
             <Logo />
           </div>
-          <CardTitle className="text-2xl font-headline">{t('signup_title')} - {t('role_worker')}</CardTitle>
-          <CardDescription>Fill out your profile to start finding jobs.</CardDescription>
+          <div className="flex items-center justify-center gap-2">
+            <CardTitle className="text-2xl font-headline">{t('signup_title')} - {t('role_worker')}</CardTitle>
+            <ReadAloudButton text={`${t('signup_title')} - ${t('role_worker')}`} />
+          </div>
+          <div className="flex items-center justify-center gap-2">
+            <CardDescription>Fill out your profile to start finding jobs.</CardDescription>
+            <ReadAloudButton text="Fill out your profile to start finding jobs." />
+          </div>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <FormField control={form.control} name="name" render={({ field }) => (
-                  <FormItem><FormLabel>{t('signup_form_name')}</FormLabel><FormControl><Input placeholder="Ramesh Kumar" {...field} /></FormControl><FormMessage /></FormItem>
+                  <FormItem>
+                    <div className="flex items-center gap-2">
+                        <FormLabel>{t('signup_form_name')}</FormLabel>
+                        <ReadAloudButton text={t('signup_form_name')} />
+                    </div>
+                    <FormControl><Input placeholder="Ramesh Kumar" {...field} /></FormControl><FormMessage />
+                  </FormItem>
                 )}/>
                 <FormField control={form.control} name="mobile" render={({ field }) => (
-                  <FormItem><FormLabel>{t('signup_form_mobile')}</FormLabel><FormControl><Input type="tel" placeholder="9876543210" {...field} /></FormControl><FormMessage /></FormItem>
+                  <FormItem>
+                    <div className="flex items-center gap-2">
+                        <FormLabel>{t('signup_form_mobile')}</FormLabel>
+                        <ReadAloudButton text={t('signup_form_mobile')} />
+                    </div>
+                    <FormControl><Input type="tel" placeholder="9876543210" {...field} /></FormControl><FormMessage />
+                  </FormItem>
                 )}/>
                 <FormField control={form.control} name="experience" render={({ field }) => (
-                  <FormItem><FormLabel>{t('signup_form_experience')}</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select experience" /></SelectTrigger></FormControl><SelectContent><SelectItem value="<1 year">&lt; 1 year</SelectItem><SelectItem value="1-3 years">1-3 years</SelectItem><SelectItem value="3-5 years">3-5 years</SelectItem><SelectItem value="5+ years">5+ years</SelectItem></SelectContent></Select><FormMessage /></FormItem>
+                  <FormItem>
+                    <div className="flex items-center gap-2">
+                        <FormLabel>{t('signup_form_experience')}</FormLabel>
+                        <ReadAloudButton text={t('signup_form_experience')} />
+                    </div>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select experience" /></SelectTrigger></FormControl><SelectContent><SelectItem value="<1 year">&lt; 1 year</SelectItem><SelectItem value="1-3 years">1-3 years</SelectItem><SelectItem value="3-5 years">3-5 years</SelectItem><SelectItem value="5+ years">5+ years</SelectItem></SelectContent></Select><FormMessage />
+                  </FormItem>
                 )}/>
                 <FormField control={form.control} name="location" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('signup_form_location')}</FormLabel>
+                    <div className="flex items-center gap-2">
+                        <FormLabel>{t('signup_form_location')}</FormLabel>
+                        <ReadAloudButton text={t('signup_form_location')} />
+                    </div>
                     <div className="relative">
                       <FormControl><Input placeholder="e.g., Delhi, India" {...field} className="pr-10" /></FormControl>
                       <Button
@@ -148,7 +176,10 @@ export default function WorkerSignupPage() {
 
               <FormField control={form.control} name="primarySkills" render={({ field }) => (
                 <FormItem>
-                    <FormLabel>{t('signup_form_primary_skills')}</FormLabel>
+                    <div className="flex items-center gap-2">
+                        <FormLabel>{t('signup_form_primary_skills')}</FormLabel>
+                        <ReadAloudButton text={t('signup_form_primary_skills')} />
+                    </div>
                     <Dialog>
                         <DialogTrigger asChild>
                             <Button variant="outline" className="w-full justify-start text-left font-normal h-auto">
@@ -202,15 +233,31 @@ export default function WorkerSignupPage() {
               )}/>
               
               <FormField control={form.control} name="secondarySkills" render={({ field }) => (
-                <FormItem><FormLabel>{t('signup_form_secondary_skills')}</FormLabel><FormControl><Textarea placeholder="e.g., Tiling, Furniture polishing" {...field} /></FormControl><FormMessage /></FormItem>
+                <FormItem>
+                    <div className="flex items-center gap-2">
+                        <FormLabel>{t('signup_form_secondary_skills')}</FormLabel>
+                        <ReadAloudButton text={t('signup_form_secondary_skills')} />
+                    </div>
+                    <FormControl><Textarea placeholder="e.g., Tiling, Furniture polishing" {...field} /></FormControl><FormMessage />
+                </FormItem>
               )}/>
               
               <div className="grid md:grid-cols-2 gap-6">
                  <FormField control={form.control} name="desiredDailyWage" render={({ field }) => (
-                    <FormItem><FormLabel>{t('signup_form_wage')}</FormLabel><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>
+                    <FormItem>
+                        <div className="flex items-center gap-2">
+                            <FormLabel>{t('signup_form_wage')}</FormLabel>
+                            <ReadAloudButton text={t('signup_form_wage')} />
+                        </div>
+                        <FormControl><Input type="number" {...field} /></FormControl><FormMessage />
+                    </FormItem>
                 )}/>
                 <FormField control={form.control} name="language" render={({ field }) => (
-                    <FormItem><FormLabel>{t('signup_form_language')}</FormLabel>
+                    <FormItem>
+                        <div className="flex items-center gap-2">
+                            <FormLabel>{t('signup_form_language')}</FormLabel>
+                            <ReadAloudButton text={t('signup_form_language')} />
+                        </div>
                     <FormControl>
                         <RadioGroup onValueChange={(val) => field.onChange(val as Language)} defaultValue={field.value} className="flex items-center space-x-4 pt-2">
                            <FormItem className="flex items-center space-x-2 space-y-0"><FormControl><RadioGroupItem value="en" id="en" /></FormControl><FormLabel htmlFor="en" className="font-normal">English</FormLabel></FormItem>
