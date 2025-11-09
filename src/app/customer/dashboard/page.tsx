@@ -43,6 +43,9 @@ export default function CustomerDashboardPage() {
                         <p className="text-muted-foreground">{t('customer_dashboard_welcome')}</p>
                     </div>
                     <div className="flex items-center gap-2">
+                        <Button asChild>
+                           <Link href="/customer/post-job"><PlusCircle className="mr-2 h-4 w-4" /> {t('customer_dashboard_post_job')}</Link>
+                        </Button>
                         <Button variant="outline" size="icon">
                             <Bell className="h-5 w-5" />
                             <span className="sr-only">Notifications</span>
@@ -50,20 +53,7 @@ export default function CustomerDashboardPage() {
                     </div>
                 </div>
 
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    <Card className="flex flex-col justify-center bg-primary text-primary-foreground">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <PlusCircle className="h-8 w-8" />
-                                <span>{t('customer_dashboard_post_job')}</span>
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <Button variant="secondary" asChild className="w-full">
-                                <Link href="/customer/post-job">Create Job <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                            </Button>
-                        </CardContent>
-                    </Card>
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
                     <Card className="flex flex-col justify-center">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
