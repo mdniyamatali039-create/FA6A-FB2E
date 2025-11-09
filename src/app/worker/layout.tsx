@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import {
   SidebarProvider,
@@ -27,7 +28,9 @@ export default function WorkerLayout({
   const { t, setRole } = useApp();
   const worker = mockWorkers[0]; // Use a mock worker for display
 
-  setRole('worker');
+  useEffect(() => {
+    setRole('worker');
+  }, [setRole]);
 
   return (
     <SidebarProvider>

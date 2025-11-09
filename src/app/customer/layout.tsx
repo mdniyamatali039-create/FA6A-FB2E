@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import {
   SidebarProvider,
@@ -25,7 +26,9 @@ export default function CustomerLayout({
 }) {
   const { t, setRole } = useApp();
 
-  setRole('customer');
+  useEffect(() => {
+    setRole('customer');
+  }, [setRole]);
 
   return (
     <SidebarProvider>
