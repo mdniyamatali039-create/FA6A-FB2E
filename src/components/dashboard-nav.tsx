@@ -26,6 +26,7 @@ export function DashboardNav({ role }: { role: 'customer' | 'worker' }) {
     { href: "/customer/post-job", label: t('customer_dashboard_post_job'), icon: <PlusCircle /> },
     { href: "/customer/find-workers", label: t('customer_dashboard_find_workers'), icon: <Search /> },
     { href: "/customer/wallet", label: 'Wallet', icon: <Wallet /> },
+    { href: "/customer/profile", label: t('profile'), icon: <User /> },
   ];
 
   const workerNav: NavItem[] = [

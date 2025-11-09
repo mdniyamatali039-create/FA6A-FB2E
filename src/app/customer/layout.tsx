@@ -14,10 +14,18 @@ import {
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 import { DashboardNav } from "@/components/dashboard-nav";
 import { useApp } from "@/hooks/use-app";
 import LanguageSwitcher from "@/components/language-switcher";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function CustomerLayout({
   children,
@@ -59,7 +67,43 @@ export default function CustomerLayout({
         <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
           <SidebarTrigger className="md:hidden" />
           <div className="flex-1 text-lg font-semibold">{t('customer_dashboard_title')}</div>
-          <LanguageSwitcher />
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Avatar className="h-9 w-9">
+                    <AvatarImage src="https://picsum.photos/seed/c-avatar/100/100" alt="Customer" />
+                    <AvatarFallback>C</AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">Customer Name</p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      customer@example.com
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/customer/profile">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>{t('profile')}</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                   <Link href="/">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>{t('logout')}</span>
+                   </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </header>
         <main className="flex-1 overflow-auto p-4 md:p-6">{children}</main>
       </SidebarInset>
