@@ -10,11 +10,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { useApp } from '@/hooks/use-app';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { MapPin, PlusCircle, Trash2 } from 'lucide-react';
+import { MapPin, PlusCircle, Trash2, Moon, Sun, Monitor } from 'lucide-react';
 import { mockCustomerAddresses } from '@/lib/data';
+import type { Language } from '@/lib/types';
 
 const MapPicker = dynamic(() => import('@/components/map-picker'), { ssr: false });
 
@@ -26,7 +28,7 @@ const formSchema = z.object({
 
 export default function CustomerProfilePage() {
   const { toast } = useToast();
-  const { t } = useApp();
+  const { t, language, setLanguage, theme, setTheme } = useApp();
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [addresses, setAddresses] = useState(mockCustomerAddresses);
 
@@ -43,7 +45,7 @@ export default function CustomerProfilePage() {
     console.log(values);
     toast({
       title: "Profile Updated!",
-      description: "Your changes have been saved successfully.",
+      description: "Your personal information has been saved.",
     });
   }
 
@@ -62,7 +64,7 @@ export default function CustomerProfilePage() {
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold font-headline mb-2">{t('profile')}</h1>
-          <p className="text-muted-foreground">Manage your profile details.</p>
+          <p className="text-muted-foreground">Manage your profile details and preferences.</p>
         </div>
         
         <Form {...form}>
@@ -137,7 +139,37 @@ export default function CustomerProfilePage() {
                   )}
               </CardContent>
             </Card>
-
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Preferences</CardTitle>
+                <CardDescription>Customize your language and theme settings.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div>
+                  <FormLabel>{t('signup_form_language')}</FormLabel>
+                  <RadioGroup onValueChange={(val) => setLanguage(val as Language)} defaultValue={language} className="flex items-center space-x-4 pt-2">
+                     <FormItem className="flex items-center space-x-2 space-y-0"><FormControl><RadioGroupItem value="en" id="en" /></FormControl><FormLabel htmlFor="en" className="font-normal">English</FormLabel></FormItem>
+                     <FormItem className="flex items-center space-x-2 space-y-0"><FormControl><RadioGroupItem value="hi" id="hi" /></FormControl><FormLabel htmlFor="hi" className="font-normal">हिंदी</FormLabel></FormItem>
+                     <FormItem className="flex items-center space-x-2 space-y-0"><FormControl><RadioGroupItem value="bn" id="bn" /></FormControl><FormLabel htmlFor="bn" className="font-normal">বাংলা</FormLabel></FormItem>
+                  </RadioGroup>
+                </div>
+                <div>
+                  <FormLabel>Theme</FormLabel>
+                  <div className="flex items-center space-x-2 pt-2">
+                    <Button variant={theme === 'light' ? 'default' : 'outline'} size="sm" onClick={() => setTheme('light')}>
+                        <Sun className="mr-2" /> Light
+                    </Button>
+                    <Button variant={theme === 'dark' ? 'default' : 'outline'} size="sm" onClick={() => setTheme('dark')}>
+                        <Moon className="mr-2" /> Dark
+                    </Button>
+                    <Button variant={theme === 'system' ? 'default' : 'outline'} size="sm" onClick={() => setTheme('system')}>
+                        <Monitor className="mr-2" /> System
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </form>
         </Form>
       </div>
