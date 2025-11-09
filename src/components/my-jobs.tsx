@@ -62,9 +62,9 @@ export default function MyJobs() {
               <div className="flex items-center gap-3">
                 <Image src={worker.avatarUrl} alt={worker.name} width={40} height={40} className="rounded-full" />
                 <div>
-                  <p className="font-semibold text-sm">{job.title}</p>
+                  <p className="font-semibold text-sm">{worker.name}</p>
                   <p className="text-xs text-muted-foreground">
-                    with {worker.name} on {job.startDate ? format(new Date(job.startDate), 'MMM dd, yyyy') : 'N/A'}
+                    {job.title} on {job.startDate ? format(new Date(job.startDate), 'MMM dd, yyyy') : 'N/A'}
                   </p>
                 </div>
               </div>
