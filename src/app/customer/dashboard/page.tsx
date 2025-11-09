@@ -50,7 +50,7 @@ export default function CustomerDashboardPage() {
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <Search className="h-8 w-8 text-primary" />
-                            <span>{t('customer_dashboard_find_workers')}</span>
+                            <span>Direct Hire</span>
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
