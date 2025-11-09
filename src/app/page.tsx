@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Briefcase, UserCheck, Wallet } from 'lucide-react';
+import { ArrowRight, Briefcase, UserCheck, Wallet, Bot, ShieldCheck } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import MainNav from '@/components/main-nav';
 import { useApp } from '@/hooks/use-app';
@@ -14,21 +14,21 @@ export default function LandingPage() {
   const { t } = useApp();
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
 
-  const steps = [
-    {
-      icon: <Briefcase className="h-10 w-10 text-primary" />,
-      title: t('landing_step1_title'),
-      description: t('landing_step1_desc'),
-    },
+  const features = [
     {
       icon: <UserCheck className="h-10 w-10 text-primary" />,
-      title: t('landing_step2_title'),
-      description: t('landing_step2_desc'),
+      title: t('landing_feature1_title'),
+      description: t('landing_feature1_desc'),
     },
     {
-      icon: <Wallet className="h-10 w-10 text-primary" />,
-      title: t('landing_step3_title'),
-      description: t('landing_step3_desc'),
+      icon: <Bot className="h-10 w-10 text-primary" />,
+      title: t('landing_feature2_title'),
+      description: t('landing_feature2_desc'),
+    },
+    {
+      icon: <ShieldCheck className="h-10 w-10 text-primary" />,
+      title: t('landing_feature3_title'),
+      description: t('landing_feature3_desc'),
     },
   ];
 
@@ -66,22 +66,22 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="how-it-works" className="py-16 md:py-24 bg-background">
+        <section id="features" className="py-16 md:py-24 bg-background">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl md:text-4xl font-headline font-bold text-center mb-12">
-              {t('landing_how_it_works_title')}
+              {t('landing_why_choose_us_title')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {steps.map((step, index) => (
+              {features.map((feature, index) => (
                 <Card key={index} className="text-center shadow-md hover:shadow-lg transition-shadow">
                   <CardHeader>
                     <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit">
-                      {step.icon}
+                      {feature.icon}
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <h3 className="text-xl font-bold mb-2">{step.title}</h3>
-                    <p className="text-muted-foreground">{step.description}</p>
+                    <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+                    <p className="text-muted-foreground">{feature.description}</p>
                   </CardContent>
                 </Card>
               ))}
