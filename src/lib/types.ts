@@ -13,6 +13,7 @@ export type WorkerProfile = {
   desiredDailyWage: number;
   language: Language;
   avatarUrl: string;
+  rating?: number;
 };
 
 export type Job = {
