@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { User, Settings, LogOut, ChevronRight, Users, Briefcase, MapPin, BarChart, MessageSquare } from "lucide-react";
+import { User, Settings, LogOut, ChevronRight, Briefcase, BarChart, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const menuItems = [
@@ -14,11 +14,6 @@ const menuItems = [
   {
     href: "/worker/my-jobs",
     label: "My Jobs",
-    icon: <MapPin className="h-5 w-5" />,
-  },
-  {
-    href: "/worker/find-jobs",
-    label: "Find Job",
     icon: <Briefcase className="h-5 w-5" />,
   },
   {
