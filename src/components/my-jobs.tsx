@@ -18,6 +18,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import type { Job } from '@/lib/types';
+import { useApp } from '@/hooks/use-app';
 
 export default function MyJobs() {
   const { toast } = useToast();

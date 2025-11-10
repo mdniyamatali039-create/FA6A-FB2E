@@ -1,7 +1,6 @@
 
 "use client";
 
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -35,7 +34,6 @@ const formSchema = z.object({
 });
 
 export default function WorkerProfilePage() {
-  const router = useRouter();
   const { toast } = useToast();
   const { t } = useApp();
   const workerData = mockWorkers[0]; // Using first worker as mock data
