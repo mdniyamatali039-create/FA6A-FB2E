@@ -3,6 +3,7 @@ import { AppProvider } from '@/contexts/app-provider';
 import { Toaster } from '@/components/ui/toaster';
 import Chatbot from '@/components/chatbot';
 import './globals.css';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: 'LabourChok',
@@ -27,6 +28,7 @@ export default function RootLayout({
           <Toaster />
           <Chatbot />
         </AppProvider>
+        <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       </body>
     </html>
   );
