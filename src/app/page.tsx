@@ -213,6 +213,9 @@ export default function LandingPage() {
       <footer className="bg-primary/10 py-6">
         <div className="container mx-auto px-4 text-center text-muted-foreground">
           <p>&copy; 2024 LabourChok. {t('footer_rights_reserved')}</p>
+           <p className="text-xs mt-2">
+            <Link href="/admin/login" className="hover:underline">Admin</Link>
+          </p>
         </div>
       </footer>
     </div>
