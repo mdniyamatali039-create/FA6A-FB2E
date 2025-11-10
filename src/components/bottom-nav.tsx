@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Briefcase, Wallet, MessageSquare, User, Menu as MenuIcon } from 'lucide-react';
+import { Home, Briefcase, Wallet, MessageSquare, Users, Menu as MenuIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useApp } from '@/hooks/use-app';
 
@@ -13,7 +13,7 @@ export default function BottomNav() {
 
     const navItems = [
         { href: "/worker/dashboard", label: t('dashboard'), icon: <Home /> },
-        { href: "/worker/find-jobs", label: t('worker_dashboard_find_jobs'), icon: <Briefcase /> },
+        { href: "/worker/team", label: 'My Team', icon: <Users /> },
         { href: "/worker/earnings", label: 'Wallet', icon: <Wallet /> },
         { href: "/worker/chat", label: 'Chat', icon: <MessageSquare /> },
         { href: "/worker/menu", label: "Menu", icon: <MenuIcon /> },

@@ -17,11 +17,6 @@ const menuItems = [
     icon: <MapPin className="h-5 w-5" />,
   },
   {
-    href: "/worker/team",
-    label: "My Team",
-    icon: <Users className="h-5 w-5" />,
-  },
-  {
     href: "/worker/find-jobs",
     label: "Find Job",
     icon: <Briefcase className="h-5 w-5" />,
