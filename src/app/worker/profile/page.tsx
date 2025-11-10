@@ -97,10 +97,6 @@ export default function WorkerProfilePage() {
     <div className="space-y-8">
         <div>
             <div className="flex items-center gap-2">
-                <h1 className="text-3xl font-bold font-headline mb-2">{t('worker_profile_title')}</h1>
-                <ReadAloudButton text="My Profile" />
-            </div>
-            <div className="flex items-center gap-2">
               <p className="text-muted-foreground">{t('worker_profile_desc')}</p>
               <ReadAloudButton text={t('worker_profile_desc')} />
             </div>
