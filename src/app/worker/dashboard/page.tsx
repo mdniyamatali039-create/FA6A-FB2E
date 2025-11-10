@@ -33,6 +33,8 @@ export default function WorkerDashboardPage() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    const [isOnline, setIsOnline] = useState(true);
+
     const activeJobs = mockJobs.filter(job => 
         job.status === 'active' && 
         job.workerId === mockWorkers[0].id &&
@@ -76,9 +78,11 @@ export default function WorkerDashboardPage() {
         <Card>
           <CardContent className="pt-6 flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <Switch id="online-status" defaultChecked />
-              <Label htmlFor="online-status" className="text-lg font-medium">You are Online</Label>
-              <ReadAloudButton text="You are Online" />
+              <Switch id="online-status" checked={isOnline} onCheckedChange={setIsOnline} />
+              <Label htmlFor="online-status" className="text-lg font-medium">
+                {isOnline ? 'You are Online' : 'You are Offline'}
+              </Label>
+              <ReadAloudButton text={isOnline ? 'You are Online' : 'You are Offline'} />
             </div>
             <Badge>Verified</Badge>
           </CardContent>
@@ -103,11 +107,11 @@ export default function WorkerDashboardPage() {
                                           <Image src={customer.avatar} alt={customer.name} width={40} height={40} className="rounded-full" />
                                           <div>
                                               <p className="text-sm font-medium">{customer.name}</p>
-                                              <p className="text-xs text-muted-foreground">{job.location}</p>
+                                              <p className="text-xs text-muted-foreground">{job.address.houseNumber}, {job.address.area}, {job.address.city} - {job.address.pincode}, {job.address.state}, India</p>
                                           </div>
                                       </div>
                                   </div>
-                                  <Button className="w-full" onClick={() => handleNavigate(job.location)}>
+                                  <Button className="w-full" onClick={() => handleNavigate(`${job.address.houseNumber}, ${job.address.area}, ${job.address.city}, ${job.address.state}`)}>
                                       <MapPin className="mr-2 h-4 w-4" /> Navigate to Job
                                   </Button>
                               </div>
@@ -158,7 +162,7 @@ export default function WorkerDashboardPage() {
                                         </div>
                                          <div className="flex items-center gap-2 text-muted-foreground">
                                             <MapPin className="h-4 w-4"/>
-                                            <span className="truncate">{job.location}</span>
+                                            <span className="truncate">{job.address.houseNumber}, {job.address.area}, {job.address.city}</span>
                                         </div>
                                     </div>
                                 </div>
