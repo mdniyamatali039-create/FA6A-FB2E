@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { User, Settings, LogOut, ChevronRight } from "lucide-react";
+import { User, Settings, LogOut, ChevronRight, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const menuItems = [
@@ -10,6 +10,11 @@ const menuItems = [
     href: "/worker/profile",
     label: "My Profile",
     icon: <User className="h-5 w-5" />,
+  },
+  {
+    href: "/worker/team",
+    label: "My Team",
+    icon: <Users className="h-5 w-5" />,
   },
   {
     href: "/worker/settings",
