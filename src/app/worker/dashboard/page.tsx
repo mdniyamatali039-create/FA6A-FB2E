@@ -69,7 +69,7 @@ export default function WorkerDashboardPage() {
 
   return (
     <>
-      <div className="space-y-6 pb-24">
+      <div className="space-y-8 pb-24">
         {/* Header moved to layout */}
 
         {/* Online/Offline Toggle */}
@@ -85,7 +85,7 @@ export default function WorkerDashboardPage() {
         </Card>
         
         {/* Main Widgets */}
-        <div className="grid gap-6">
+        <div className="grid gap-8">
           <Card>
               <CardHeader>
                   <CardTitle>Today's Jobs</CardTitle>
@@ -131,7 +131,7 @@ export default function WorkerDashboardPage() {
                           {upcomingJobs.map(job => {
                                const customer = { name: "Meera Sharma", avatar: "https://picsum.photos/seed/meera/100/100"}; // Mock
                                return (
-                                <div key={job.id} className="p-3 rounded-md border">
+                                <div key={job.id} className="p-4 rounded-md border">
                                     <div className="flex justify-between items-start">
                                         <div>
                                             <p className="font-semibold">{job.title}</p>
