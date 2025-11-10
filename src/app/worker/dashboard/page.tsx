@@ -85,7 +85,7 @@ export default function WorkerDashboardPage() {
         </Card>
         
         {/* Main Widgets */}
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6">
           <Card>
               <CardHeader>
                   <CardTitle>Today's Jobs</CardTitle>
