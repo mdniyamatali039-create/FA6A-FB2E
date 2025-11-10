@@ -28,7 +28,7 @@ const menuItems = [
   },
   {
     href: "/worker/chat",
-    label: "Messages",
+    label: "Support",
     icon: <MessageSquare className="h-5 w-5" />,
   },
   {
