@@ -5,17 +5,31 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Zap, MapPin } from 'lucide-react';
+import { ArrowRight, Zap, MapPin, Calendar } from 'lucide-react';
 import { useApp } from '@/hooks/use-app';
 import { mockJobs, mockWorkers } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import ReadAloudButton from '@/components/read-aloud-button';
+import { format } from 'date-fns';
 
 export default function WorkerDashboardPage() {
     const { t } = useApp();
-    const activeJobs = mockJobs.filter(job => job.status === 'active' && job.workerId === mockWorkers[0].id);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const activeJobs = mockJobs.filter(job => 
+        job.status === 'active' && 
+        job.workerId === mockWorkers[0].id &&
+        job.startDate && new Date(job.startDate).toDateString() === new Date().toDateString()
+    );
+
+    const upcomingJobs = mockJobs.filter(job =>
+        job.status === 'active' &&
+        job.workerId === mockWorkers[0].id &&
+        job.startDate && new Date(job.startDate) > new Date()
+    ).sort((a, b) => new Date(a.startDate!).getTime() - new Date(b.startDate!).getTime());
 
     const handleNavigate = (location: string) => {
         window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`, '_blank');
@@ -68,7 +82,6 @@ export default function WorkerDashboardPage() {
                     })
                 ) : (
                     <>
-                        <p className="text-3xl font-bold">0 Active</p>
                         <p className="text-muted-foreground">No jobs assigned for today.</p>
                         <ReadAloudButton text="No active jobs today." />
                     </>
@@ -77,12 +90,29 @@ export default function WorkerDashboardPage() {
         </Card>
         <Card>
             <CardHeader>
-                <CardTitle>Earnings Today</CardTitle>
+                <CardTitle>Upcoming Work</CardTitle>
             </CardHeader>
             <CardContent>
-                <p className="text-3xl font-bold">₹850</p>
-                <p className="text-muted-foreground">From 1 completed job</p>
-                <ReadAloudButton text="Earnings today are 850 rupees from one completed job." />
+                {upcomingJobs.length > 0 ? (
+                    <div className="space-y-3">
+                        {upcomingJobs.slice(0, 2).map(job => (
+                            <div key={job.id} className="flex items-center gap-3">
+                                <Calendar className="h-5 w-5 text-muted-foreground" />
+                                <div>
+                                    <p className="font-medium text-sm">{job.title}</p>
+                                    <p className="text-xs text-muted-foreground">
+                                        {job.startDate ? format(new Date(job.startDate), 'EEE, MMM dd') : 'Date not set'}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                         {upcomingJobs.length > 2 && (
+                            <p className="text-xs text-muted-foreground pt-2">+ {upcomingJobs.length - 2} more...</p>
+                        )}
+                    </div>
+                ) : (
+                    <p className="text-muted-foreground">No upcoming jobs scheduled.</p>
+                )}
             </CardContent>
         </Card>
       </div>
