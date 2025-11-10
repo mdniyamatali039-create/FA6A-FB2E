@@ -2,9 +2,10 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Zap } from 'lucide-react';
+import { ArrowRight, Zap, MapPin } from 'lucide-react';
 import { useApp } from '@/hooks/use-app';
 import { mockJobs, mockWorkers } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
@@ -14,8 +15,11 @@ import ReadAloudButton from '@/components/read-aloud-button';
 
 export default function WorkerDashboardPage() {
     const { t } = useApp();
-    const activeJobs = mockJobs.filter(job => job.status === 'active' && job.workerId === mockWorkers[0].id).length;
-    const pendingJobs = mockJobs.filter(job => job.status === 'open' && job.workerId === mockWorkers[0].id).length; // Assuming some jobs can be pending for a worker
+    const activeJobs = mockJobs.filter(job => job.status === 'active' && job.workerId === mockWorkers[0].id);
+
+    const handleNavigate = (location: string) => {
+        window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`, '_blank');
+    };
 
   return (
     <div className="space-y-6 pb-24">
@@ -40,9 +44,35 @@ export default function WorkerDashboardPage() {
                 <CardTitle>Today's Jobs</CardTitle>
             </CardHeader>
             <CardContent>
-                <p className="text-3xl font-bold">{activeJobs} Active</p>
-                <p className="text-muted-foreground">{pendingJobs} Pending</p>
-                <ReadAloudButton text={`${activeJobs} Active jobs and ${pendingJobs} Pending jobs today.`} />
+                {activeJobs.length > 0 ? (
+                    activeJobs.map(job => {
+                        // Mock finding customer details
+                        const customer = { name: "Sanjay Patel", avatar: "https://picsum.photos/seed/sanjay/100/100"};
+                        return (
+                            <div key={job.id} className="space-y-4">
+                                <div>
+                                    <p className="font-semibold text-lg">{job.title}</p>
+                                    <div className="flex items-center gap-3 mt-2">
+                                        <Image src={customer.avatar} alt={customer.name} width={40} height={40} className="rounded-full" />
+                                        <div>
+                                            <p className="text-sm font-medium">{customer.name}</p>
+                                            <p className="text-xs text-muted-foreground">{job.location}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <Button className="w-full" onClick={() => handleNavigate(job.location)}>
+                                    <MapPin className="mr-2 h-4 w-4" /> Navigate to Job
+                                </Button>
+                            </div>
+                        )
+                    })
+                ) : (
+                    <>
+                        <p className="text-3xl font-bold">0 Active</p>
+                        <p className="text-muted-foreground">No jobs assigned for today.</p>
+                        <ReadAloudButton text="No active jobs today." />
+                    </>
+                )}
             </CardContent>
         </Card>
         <Card>
@@ -70,7 +100,7 @@ export default function WorkerDashboardPage() {
         </CardContent>
         <CardFooter>
             <Button variant="secondary" asChild>
-                <Link href="/worker/find-jobs?tab=suggestions">View Suggestions <ArrowRight className="ml-2" /></Link>
+                <Link href="/worker/find-jobs">View Suggestions <ArrowRight className="ml-2" /></Link>
             </Button>
         </CardFooter>
       </Card>
