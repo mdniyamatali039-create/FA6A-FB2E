@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { User, Settings, LogOut, ChevronRight, Users } from "lucide-react";
+import { User, Settings, LogOut, ChevronRight, Users, Briefcase, MapPin, BarChart, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const menuItems = [
@@ -12,9 +12,29 @@ const menuItems = [
     icon: <User className="h-5 w-5" />,
   },
   {
+    href: "/worker/my-jobs",
+    label: "My Jobs",
+    icon: <MapPin className="h-5 w-5" />,
+  },
+  {
     href: "/worker/team",
     label: "My Team",
     icon: <Users className="h-5 w-5" />,
+  },
+  {
+    href: "/worker/find-jobs",
+    label: "Find Job",
+    icon: <Briefcase className="h-5 w-5" />,
+  },
+  {
+    href: "/worker/earnings",
+    label: "My Earnings",
+    icon: <BarChart className="h-5 w-5" />,
+  },
+  {
+    href: "/worker/chat",
+    label: "Messages",
+    icon: <MessageSquare className="h-5 w-5" />,
   },
   {
     href: "/worker/settings",
@@ -30,8 +50,8 @@ const menuItems = [
 
 export default function MenuPage() {
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Menu</h1>
+    <div className="space-y-4 pb-24">
+      <h1 className="text-2xl font-bold px-4">Menu</h1>
       <div className="space-y-2">
         {menuItems.map((item) => (
           <Button

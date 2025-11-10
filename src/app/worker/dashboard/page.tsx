@@ -2,13 +2,12 @@
 "use client";
 
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Briefcase, User, ArrowRight, MapPin, Edit, Star, Cog, BarChart, MessageSquare, Wallet, Zap } from 'lucide-react';
+import { ArrowRight, Zap } from 'lucide-react';
 import { useApp } from '@/hooks/use-app';
 import { mockJobs, mockWorkers } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
-import Image from 'next/image';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import ReadAloudButton from '@/components/read-aloud-button';
@@ -17,14 +16,6 @@ export default function WorkerDashboardPage() {
     const { t } = useApp();
     const activeJobs = mockJobs.filter(job => job.status === 'active' && job.workerId === mockWorkers[0].id).length;
     const pendingJobs = mockJobs.filter(job => job.status === 'open' && job.workerId === mockWorkers[0].id).length; // Assuming some jobs can be pending for a worker
-    const worker = mockWorkers[0]; // Use a mock worker for display
-
-    const quickButtons = [
-        { href: "/worker/find-jobs", label: "Find Job", icon: <Briefcase /> },
-        { href: "/worker/my-jobs", label: "My Jobs", icon: <MapPin /> },
-        { href: "/worker/earnings", label: "My Earnings", icon: <BarChart /> },
-        { href: "/worker/chat", label: "Messages", icon: <MessageSquare /> },
-    ];
 
   return (
     <div className="space-y-6 pb-24">
@@ -84,20 +75,6 @@ export default function WorkerDashboardPage() {
         </CardFooter>
       </Card>
 
-      {/* Quick Buttons */}
-       <div>
-        <h2 className="text-xl font-bold font-headline mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {quickButtons.map(btn => (
-                 <Button key={btn.href} variant="outline" className="h-24 flex-col gap-2 text-base" asChild>
-                    <Link href={btn.href}>
-                        {btn.icon}
-                        <span>{btn.label}</span>
-                    </Link>
-                </Button>
-            ))}
-        </div>
-      </div>
     </div>
   );
 }
