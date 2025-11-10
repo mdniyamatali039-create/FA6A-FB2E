@@ -13,15 +13,21 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useApp } from '@/hooks/use-app';
-import { mockJobs, primarySkills } from '@/lib/data';
+import { mockJobs, primarySkills, indianStates } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
 import type { Job } from '@/lib/types';
 import { cn } from '@/lib/utils';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const formSchema = z.object({
   title: z.string().min(5, { message: "Title must be at least 5 characters." }),
   description: z.string().min(20, { message: "Description must be at least 20 characters." }),
-  location: z.string().min(3, { message: "Please enter a location." }),
+  houseNumber: z.string().min(1, "Please enter a house/flat number."),
+  area: z.string().min(3, "Please enter an area/street."),
+  landmark: z.string().optional(),
+  pincode: z.string().length(6, "Pincode must be 6 digits."),
+  city: z.string().min(2, "Please enter a city."),
+  state: z.string().min(2, "Please select a state."),
   wage: z.coerce.number().min(100, { message: "Wage must be at least 100." }),
   skills: z.array(z.string()).refine(value => value.some(item => item), {
     message: "You have to select at least one required skill.",
@@ -40,7 +46,12 @@ export default function PostJobPage() {
     defaultValues: {
       title: "",
       description: "",
-      location: "",
+      houseNumber: "",
+      area: "",
+      landmark: "",
+      pincode: "",
+      city: "",
+      state: "",
       wage: 500,
       skills: [],
     },
@@ -94,23 +105,54 @@ export default function PostJobPage() {
                     <FormMessage />
                   </FormItem>
                 )}/>
-                
+
+                <FormLabel>Job Location</FormLabel>
+                <FormField control={form.control} name="houseNumber" render={({ field }) => (
+                    <FormItem><FormLabel>Flat, House no., Building</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                )}/>
+                <FormField control={form.control} name="area" render={({ field }) => (
+                    <FormItem><FormLabel>Area, Street, Sector, Village</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                )}/>
+                 <FormField control={form.control} name="landmark" render={({ field }) => (
+                    <FormItem><FormLabel>Landmark (optional)</FormLabel><FormControl><Input placeholder="E.g. near Apollo Hospital" {...field} /></FormControl><FormMessage /></FormItem>
+                )}/>
+
                 <div className="grid md:grid-cols-2 gap-8">
-                   <FormField control={form.control} name="location" render={({ field }) => (
+                   <FormField control={form.control} name="pincode" render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{t('post_job_field_location')}</FormLabel>
-                        <FormControl><Input placeholder="e.g., Delhi, India" {...field} /></FormControl>
+                        <FormLabel>Pincode</FormLabel>
+                        <FormControl><Input placeholder="6-digit Pincode" {...field} /></FormControl>
                         <FormMessage />
                       </FormItem>
                   )}/>
-                  <FormField control={form.control} name="wage" render={({ field }) => (
+                  <FormField control={form.control} name="city" render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{t('post_job_field_wage')}</FormLabel>
-                        <FormControl><Input type="number" {...field} /></FormControl>
+                        <FormLabel>Town/City</FormLabel>
+                        <FormControl><Input {...field} /></FormControl>
                         <FormMessage />
                       </FormItem>
                   )}/>
                 </div>
+                 <FormField control={form.control} name="state" render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>State</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl><SelectTrigger><SelectValue placeholder="Select state" /></SelectTrigger></FormControl>
+                            <SelectContent>
+                                {indianStates.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                            </SelectContent>
+                        </Select>
+                        <FormMessage />
+                    </FormItem>
+                )}/>
+                
+                <FormField control={form.control} name="wage" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('post_job_field_wage')}</FormLabel>
+                      <FormControl><Input type="number" {...field} /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                )}/>
 
                 <FormField control={form.control} name="skills" render={() => (
                   <FormItem>

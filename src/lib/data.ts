@@ -17,6 +17,16 @@ export const primarySkills = [
   'Waterproofing / Sealant Expert',
 ];
 
+export const indianStates = [
+  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana",
+  "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
+  "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
+  "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands",
+  "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh",
+  "Lakshadweep", "Puducherry"
+];
+
+
 export const mockWorkers: WorkerProfile[] = [
   {
     id: 'w1',
@@ -24,7 +34,14 @@ export const mockWorkers: WorkerProfile[] = [
     mobileNumber: '+919876543210',
     experience: '5+ years',
     currentCityExperience: '3-5 years',
-    location: 'A-123, Sector 18, Noida - 201301, Uttar Pradesh, India',
+    location: 'Sector 18, Noida',
+    address: {
+      houseNumber: 'A-123',
+      area: 'Sector 18',
+      city: 'Noida',
+      pincode: '201301',
+      state: 'Uttar Pradesh'
+    },
     primarySkills: ['Plaster Mason'],
     secondarySkills: 'Tiling, waterproofing',
     desiredDailyWage: 800,
@@ -38,7 +55,14 @@ export const mockWorkers: WorkerProfile[] = [
     mobileNumber: '+919876543211',
     experience: '5+ years',
     currentCityExperience: '5+ years',
-    location: 'B-45, Andheri West, Mumbai - 400058, Maharashtra, India',
+    location: 'Andheri West, Mumbai',
+    address: {
+      houseNumber: 'B-45',
+      area: 'Andheri West',
+      city: 'Mumbai',
+      pincode: '400058',
+      state: 'Maharashtra'
+    },
     primarySkills: ['Painter / Polisher'],
     secondarySkills: 'Furniture polishing, minor repairs',
     desiredDailyWage: 900,
@@ -52,7 +76,14 @@ export const mockWorkers: WorkerProfile[] = [
     mobileNumber: '+919876543212',
     experience: '5+ years',
     currentCityExperience: '1-3 years',
-    location: 'C-78, Hauz Khas, New Delhi - 110016, Delhi, India',
+    location: 'Hauz Khas, New Delhi',
+    address: {
+      houseNumber: 'C-78',
+      area: 'Hauz Khas',
+      city: 'New Delhi',
+      pincode: '110016',
+      state: 'Delhi'
+    },
     primarySkills: ['Plumber (Finishing Work)'],
     secondarySkills: 'Appliance installation',
     desiredDailyWage: 700,
@@ -66,7 +97,14 @@ export const mockWorkers: WorkerProfile[] = [
     mobileNumber: '+919876543213',
     experience: '5+ years',
     currentCityExperience: '5+ years',
-    location: 'D-9, Salt Lake, Kolkata - 700091, West Bengal, India',
+    location: 'Salt Lake, Kolkata',
+    address: {
+      houseNumber: 'D-9',
+      area: 'Salt Lake',
+      city: 'Kolkata',
+      pincode: '700091',
+      state: 'West Bengal'
+    },
     primarySkills: ['Painter / Polisher'],
     secondarySkills: 'Wall putty, design painting',
     desiredDailyWage: 850,
@@ -80,7 +118,14 @@ export const mockWorkers: WorkerProfile[] = [
     mobileNumber: '+919876543214',
     experience: '1-3 years',
     currentCityExperience: '<1 year',
-    location: 'Flat 101, Marine Drive, Mumbai - 400020, Maharashtra, India',
+    location: 'Marine Drive, Mumbai',
+    address: {
+      houseNumber: 'Flat 101',
+      area: 'Marine Drive',
+      city: 'Mumbai',
+      pincode: '400020',
+      state: 'Maharashtra'
+    },
     primarySkills: ['Helper / Labour'],
     secondarySkills: 'Site cleaning, material handling',
     desiredDailyWage: 500,
@@ -95,7 +140,14 @@ export const mockJobs: Job[] = [
     id: 'j1',
     title: 'House Renovation Work',
     description: 'Need skilled labour for a full house renovation. Includes masonry, plumbing, and electrical work. Project duration is approximately 2 months.',
-    location: '7, Jantar Mantar Rd, Connaught Place, New Delhi - 110001, Delhi, India',
+    location: 'Connaught Place, New Delhi',
+    address: {
+      houseNumber: '7',
+      area: 'Jantar Mantar Rd, Connaught Place',
+      city: 'New Delhi',
+      pincode: '110001',
+      state: 'Delhi'
+    },
     wage: 1000,
     skills: ['Plaster Mason', 'Plumber (Finishing Work)', 'Electrician (Finishing Work)'],
     customerId: 'c1',
@@ -105,7 +157,14 @@ export const mockJobs: Job[] = [
     id: 'j2',
     title: 'Apartment Painting',
     description: 'Looking for an experienced painter to paint a 2BHK apartment. All materials will be provided. Work needs to be completed within a week.',
-    location: '15, Park Street, Park Street area, Kolkata - 700016, West Bengal, India',
+    location: 'Park Street area, Kolkata',
+    address: {
+      houseNumber: '15',
+      area: 'Park Street, Park Street area',
+      city: 'Kolkata',
+      pincode: '700016',
+      state: 'West Bengal'
+    },
     wage: 900,
     skills: ['Painter / Polisher'],
     customerId: 'c2',
@@ -115,7 +174,14 @@ export const mockJobs: Job[] = [
     id: 'j3',
     title: 'Office Furniture Assembly',
     description: 'Need a carpenter to assemble new office furniture. Should be quick and efficient.',
-    location: 'Plot 23, Bandra Kurla Complex, Bandra East, Mumbai - 400051, Maharashtra, India',
+    location: 'Bandra Kurla Complex, Mumbai',
+    address: {
+      houseNumber: 'Plot 23',
+      area: 'Bandra Kurla Complex, Bandra East',
+      city: 'Mumbai',
+      pincode: '400051',
+      state: 'Maharashtra'
+    },
     wage: 950,
     skills: ['Carpenter'],
     customerId: 'c1',
@@ -127,7 +193,14 @@ export const mockJobs: Job[] = [
     id: 'j4',
     title: 'Site cleanup',
     description: 'Requires a team of 5 general laborers for a construction site cleanup project. The work will involve debris removal and site organization.',
-    location: '10, Karol Bagh, New Delhi - 110005, Delhi, India',
+    location: 'Karol Bagh, New Delhi',
+    address: {
+      houseNumber: '10',
+      area: 'Karol Bagh',
+      city: 'New Delhi',
+      pincode: '110005',
+      state: 'Delhi'
+    },
     wage: 600,
     skills: ['Helper / Labour'],
     customerId: 'c3',
@@ -138,7 +211,14 @@ export const mockJobs: Job[] = [
     id: 'j5',
     title: 'Urgent Plumbing Fix',
     description: 'Leaky pipe under the kitchen sink. Need an urgent fix.',
-    location: 'C-78, Hauz Khas, New Delhi - 110016, Delhi, India',
+    location: 'Hauz Khas, New Delhi',
+    address: {
+      houseNumber: 'C-78',
+      area: 'Hauz Khas',
+      city: 'New Delhi',
+      pincode: '110016',
+      state: 'Delhi'
+    },
     wage: 750,
     skills: ['Plumber (Finishing Work)'],
     customerId: 'c1',
@@ -150,7 +230,14 @@ export const mockJobs: Job[] = [
     id: 'j6',
     title: 'Garden Landscaping',
     description: 'Landscaping for a backyard garden, including planting and creating a walkway.',
-    location: '1, Cyber City, DLF Phase 2, Gurugram - 122002, Haryana, India',
+    location: 'DLF Phase 2, Gurugram',
+    address: {
+      houseNumber: '1',
+      area: 'Cyber City, DLF Phase 2',
+      city: 'Gurugram',
+      pincode: '122002',
+      state: 'Haryana'
+    },
     wage: 800,
     skills: ['Helper / Labour'],
     customerId: 'c2',
@@ -159,6 +246,28 @@ export const mockJobs: Job[] = [
 ];
 
 export const mockCustomerAddresses: CustomerAddress[] = [
-  { id: 'addr1', address: '123, Business Rd, Connaught Place, New Delhi - 110001, Delhi, India' },
-  { id: 'addr2', address: '456, Home Ave, Sector 29, Gurugram - 122022, Haryana, India' },
+  { 
+    id: 'addr1', 
+    address: '123, Business Rd, Connaught Place, New Delhi - 110001, Delhi, India',
+    addressDetails: {
+      houseNumber: '123',
+      area: 'Business Rd, Connaught Place',
+      city: 'New Delhi',
+      pincode: '110001',
+      state: 'Delhi',
+      landmark: 'Near Central Park'
+    },
+    isDefault: true
+  },
+  { 
+    id: 'addr2', 
+    address: '456, Home Ave, Sector 29, Gurugram - 122022, Haryana, India',
+    addressDetails: {
+      houseNumber: '456',
+      area: 'Home Ave, Sector 29',
+      city: 'Gurugram',
+      pincode: '122022',
+      state: 'Haryana'
+    }
+  },
 ];

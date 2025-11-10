@@ -50,7 +50,7 @@ export default function MyPostsPage() {
                         <div>
                             <CardTitle>{job.title}</CardTitle>
                             <CardDescription className="flex items-center gap-2 pt-1">
-                                <span className="flex items-center gap-1"><MapPin className="h-4 w-4" />{job.location}</span>
+                                <span className="flex items-center gap-1"><MapPin className="h-4 w-4" />{job.address.city}, {job.address.state}</span>
                                 <span className="flex items-center gap-1 font-semibold text-primary"><Wallet className="h-4 w-4" />₹{job.wage}/day</span>
                             </CardDescription>
                         </div>

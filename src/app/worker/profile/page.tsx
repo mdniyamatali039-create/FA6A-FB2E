@@ -13,7 +13,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useApp } from '@/hooks/use-app';
-import { mockWorkers, primarySkills } from '@/lib/data';
+import { mockWorkers, primarySkills, indianStates } from '@/lib/data';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import ReadAloudButton from '@/components/read-aloud-button';
@@ -25,7 +25,14 @@ const formSchema = z.object({
   mobile: z.string().length(10, { message: "Mobile number must be 10 digits." }),
   experience: z.string().min(1, { message: "Please select your experience level." }),
   currentCityExperience: z.string().min(1, { message: "Please select your experience level in the current city." }),
-  location: z.string().min(3, { message: "Please enter your location." }),
+  
+  houseNumber: z.string().min(1, "Please enter a house/flat number."),
+  area: z.string().min(3, "Please enter an area/street."),
+  landmark: z.string().optional(),
+  pincode: z.string().length(6, "Pincode must be 6 digits."),
+  city: z.string().min(2, "Please enter a city."),
+  state: z.string().min(2, "Please select a state."),
+
   primarySkills: z.array(z.string()).refine(value => value.some(item => item), {
     message: "You have to select at least one primary skill.",
   }),
@@ -46,7 +53,12 @@ export default function WorkerProfilePage() {
       mobile: workerData.mobileNumber.replace('+91', ''),
       experience: workerData.experience,
       currentCityExperience: workerData.currentCityExperience || '',
-      location: workerData.location,
+      houseNumber: workerData.address.houseNumber,
+      area: workerData.address.area,
+      landmark: workerData.address.landmark || '',
+      pincode: workerData.address.pincode,
+      city: workerData.address.city,
+      state: workerData.address.state,
       primarySkills: workerData.primarySkills,
       secondarySkills: workerData.secondarySkills,
       desiredDailyWage: workerData.desiredDailyWage,
@@ -74,8 +86,13 @@ export default function WorkerProfilePage() {
           const { latitude, longitude } = position.coords;
           const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
           const data = await response.json();
-          if (data && data.display_name) {
-            form.setValue('location', data.display_name);
+          if (data && data.address) {
+            const { house_number, road, suburb, city, state, postcode } = data.address;
+            form.setValue('houseNumber', house_number || '');
+            form.setValue('area', `${road || ''}${suburb ? ', ' + suburb : ''}`);
+            form.setValue('city', city || '');
+            form.setValue('state', state || '');
+            form.setValue('pincode', postcode || '');
             toast({ title: 'Location Updated!', description: 'Your current location has been set.' });
           } else {
             toast({ variant: 'destructive', title: 'Error', description: 'Could not find address for your location.' });
@@ -94,7 +111,7 @@ export default function WorkerProfilePage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pb-24">
         <div>
             <div className="flex items-center gap-2">
               <p className="text-muted-foreground">{t('worker_profile_desc')}</p>
@@ -106,13 +123,56 @@ export default function WorkerProfilePage() {
             <CardContent className="pt-6">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <div className="grid md:grid-cols-2 gap-8">
-                    <FormField control={form.control} name="name" render={({ field }) => (
-                    <FormItem><FormLabel>{t('signup_form_name')}</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                  <div className="grid md:grid-cols-2 gap-8">
+                      <FormField control={form.control} name="name" render={({ field }) => (
+                      <FormItem><FormLabel>{t('signup_form_name')}</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                      )}/>
+                      <FormField control={form.control} name="mobile" render={({ field }) => (
+                      <FormItem><FormLabel>{t('signup_form_mobile')}</FormLabel><FormControl><Input type="tel" {...field} /></FormControl><FormMessage /></FormItem>
+                      )}/>
+                  </div>
+
+                   <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                          <FormLabel>Location</FormLabel>
+                          <Button type="button" variant="outline" size="sm" onClick={handleGetCurrentLocation} disabled={isFetchingLocation}>
+                              {isFetchingLocation ? <Loader2 className="animate-spin mr-2" /> : <Navigation className="mr-2" />}
+                              Use my location
+                          </Button>
+                      </div>
+                    </div>
+
+                    <FormField control={form.control} name="houseNumber" render={({ field }) => (
+                        <FormItem><FormLabel>Flat, House no., Building</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
                     )}/>
-                    <FormField control={form.control} name="mobile" render={({ field }) => (
-                    <FormItem><FormLabel>{t('signup_form_mobile')}</FormLabel><FormControl><Input type="tel" {...field} /></FormControl><FormMessage /></FormItem>
+                    <FormField control={form.control} name="area" render={({ field }) => (
+                        <FormItem><FormLabel>Area, Street, Sector, Village</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
                     )}/>
+                    <FormField control={form.control} name="landmark" render={({ field }) => (
+                        <FormItem><FormLabel>Landmark (optional)</FormLabel><FormControl><Input placeholder="E.g. near Apollo Hospital" {...field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                    <div className="grid md:grid-cols-2 gap-8">
+                        <FormField control={form.control} name="pincode" render={({ field }) => (
+                            <FormItem><FormLabel>Pincode</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                        )}/>
+                        <FormField control={form.control} name="city" render={({ field }) => (
+                            <FormItem><FormLabel>Town/City</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                        )}/>
+                    </div>
+                    <FormField control={form.control} name="state" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>State</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl><SelectTrigger><SelectValue placeholder="Select state" /></SelectTrigger></FormControl>
+                                <SelectContent>
+                                    {indianStates.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}/>
+
+                  <div className="grid md:grid-cols-2 gap-8 pt-4">
                     <FormField control={form.control} name="experience" render={({ field }) => (
                     <FormItem><FormLabel>{t('signup_form_experience')}</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select experience" /></SelectTrigger></FormControl><SelectContent><SelectItem value="<1 year">&lt; 1 year</SelectItem><SelectItem value="1-3 years">1-3 years</SelectItem><SelectItem value="3-5 years">3-5 years</SelectItem><SelectItem value="5+ years">5+ years</SelectItem></SelectContent></Select><FormMessage /></FormItem>
                     )}/>
@@ -130,26 +190,6 @@ export default function WorkerProfilePage() {
                             </Select>
                             <FormMessage />
                         </FormItem>
-                    )}/>
-                    <FormField control={form.control} name="location" render={({ field }) => (
-                      <FormItem className="md:col-span-2">
-                        <FormLabel>{t('signup_form_location')}</FormLabel>
-                        <div className="relative">
-                          <FormControl><Input {...field} className="pr-10" /></FormControl>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
-                            onClick={handleGetCurrentLocation}
-                            disabled={isFetchingLocation}
-                          >
-                            {isFetchingLocation ? <Loader2 className="animate-spin" /> : <Navigation className="h-4 w-4" />}
-                            <span className="sr-only">Use current location</span>
-                          </Button>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
                     )}/>
                 </div>
 

@@ -16,7 +16,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useApp } from '@/hooks/use-app';
 import Logo from '@/components/logo';
-import { primarySkills } from '@/lib/data';
+import { primarySkills, indianStates } from '@/lib/data';
 import type { Language } from '@/lib/types';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
@@ -30,7 +30,15 @@ const formSchema = z.object({
   mobile: z.string().length(10, { message: "Mobile number must be 10 digits." }),
   experience: z.string().min(1, { message: "Please select your experience level." }),
   currentCityExperience: z.string().min(1, { message: "Please select your experience level in the current city." }),
-  location: z.string().min(3, { message: "Please enter your location." }),
+  
+  // New address fields
+  houseNumber: z.string().min(1, "Please enter a house/flat number."),
+  area: z.string().min(3, "Please enter an area/street."),
+  landmark: z.string().optional(),
+  pincode: z.string().length(6, "Pincode must be 6 digits."),
+  city: z.string().min(2, "Please enter a city."),
+  state: z.string().min(2, "Please select a state."),
+
   primarySkills: z.array(z.string()).refine(value => value.some(item => item), {
     message: "You have to select at least one primary skill.",
   }),
@@ -52,7 +60,12 @@ export default function WorkerSignupPage() {
       mobile: "",
       experience: "",
       currentCityExperience: "",
-      location: "",
+      houseNumber: "",
+      area: "",
+      landmark: "",
+      pincode: "",
+      city: "",
+      state: "",
       primarySkills: [],
       secondarySkills: "",
       desiredDailyWage: 500,
@@ -85,8 +98,13 @@ export default function WorkerSignupPage() {
           const { latitude, longitude } = position.coords;
           const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
           const data = await response.json();
-          if (data && data.display_name) {
-            form.setValue('location', data.display_name);
+          if (data && data.address) {
+            const { house_number, road, suburb, city, state, postcode } = data.address;
+            form.setValue('houseNumber', house_number || '');
+            form.setValue('area', `${road || ''}${suburb ? ', ' + suburb : ''}`);
+            form.setValue('city', city || '');
+            form.setValue('state', state || '');
+            form.setValue('pincode', postcode || '');
             toast({ title: 'Location Updated!', description: 'Your current location has been set.' });
           } else {
             toast({ variant: 'destructive', title: 'Error', description: 'Could not find address for your location.' });
@@ -142,6 +160,44 @@ export default function WorkerSignupPage() {
                     <FormControl><Input type="tel" placeholder="9876543210" {...field} /></FormControl><FormMessage />
                   </FormItem>
                 )}/>
+              </div>
+
+              <div className="space-y-2">
+                 <div className="flex items-center justify-between">
+                    <FormLabel>Location</FormLabel>
+                    <Button type="button" variant="outline" size="sm" onClick={handleGetCurrentLocation} disabled={isFetchingLocation}>
+                        {isFetchingLocation ? <Loader2 className="animate-spin mr-2" /> : <Navigation className="mr-2" />}
+                        Use my location
+                    </Button>
+                </div>
+              </div>
+              
+              <FormField control={form.control} name="houseNumber" render={({ field }) => (
+                  <FormItem><FormLabel>Flat, House no., Building, Company, Apartment</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+              )}/>
+              <FormField control={form.control} name="area" render={({ field }) => (
+                  <FormItem><FormLabel>Area, Street, Sector, Village</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+              )}/>
+               <FormField control={form.control} name="landmark" render={({ field }) => (
+                  <FormItem><FormLabel>Landmark (optional)</FormLabel><FormControl><Input placeholder="E.g. near apollo hospital" {...field} /></FormControl><FormMessage /></FormItem>
+              )}/>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                 <FormField control={form.control} name="pincode" render={({ field }) => (
+                    <FormItem><FormLabel>Pincode</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                )}/>
+                 <FormField control={form.control} name="city" render={({ field }) => (
+                    <FormItem><FormLabel>Town/City</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                )}/>
+              </div>
+
+              <FormField control={form.control} name="state" render={({ field }) => (
+                  <FormItem><FormLabel>State</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select state" /></SelectTrigger></FormControl><SelectContent><SelectContent>
+                    {indianStates.map(state => <SelectItem key={state} value={state}>{state}</SelectItem>)}
+                  </SelectContent></SelectContent></Select><FormMessage /></FormItem>
+              )}/>
+
+              <div className="grid md:grid-cols-2 gap-6 pt-4">
                 <FormField control={form.control} name="experience" render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center gap-2">
@@ -168,29 +224,6 @@ export default function WorkerSignupPage() {
                         </Select>
                         <FormMessage />
                     </FormItem>
-                )}/>
-                <FormField control={form.control} name="location" render={({ field }) => (
-                  <FormItem className="md:col-span-2">
-                    <div className="flex items-center gap-2">
-                        <FormLabel>{t('signup_form_location')}</FormLabel>
-                        <ReadAloudButton text={t('signup_form_location')} />
-                    </div>
-                    <div className="relative">
-                      <FormControl><Input placeholder="e.g., Delhi, India" {...field} className="pr-10" /></FormControl>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
-                        onClick={handleGetCurrentLocation}
-                        disabled={isFetchingLocation}
-                      >
-                        {isFetchingLocation ? <Loader2 className="animate-spin" /> : <Navigation className="h-4 w-4" />}
-                        <span className="sr-only">Use current location</span>
-                      </Button>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
                 )}/>
               </div>
 

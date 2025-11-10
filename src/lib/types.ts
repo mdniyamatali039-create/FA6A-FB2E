@@ -3,12 +3,22 @@ export type UserRole = 'customer' | 'worker';
 
 export type Language = 'en' | 'hi' | 'bn';
 
+export interface Address {
+  houseNumber: string;
+  area: string;
+  landmark?: string;
+  pincode: string;
+  city: string;
+  state: string;
+}
+
 export type WorkerProfile = {
   id: string;
   name: string;
   mobileNumber: string;
   experience: string;
-  location: string;
+  location: string; // This will be a formatted string from Address
+  address: Address;
   primarySkills: string[];
   secondarySkills: string;
   desiredDailyWage: number;
@@ -22,7 +32,8 @@ export type Job = {
   id: string;
   title: string;
   description: string;
-  location: string;
+  location: string; // This will be a formatted string from Address
+  address: Address;
   wage: number;
   skills: string[];
   customerId: string;
@@ -33,5 +44,8 @@ export type Job = {
 
 export type CustomerAddress = {
   id: string;
-  address: string;
+  address: string; // This will be a formatted string from Address
+  addressDetails: Address;
+  isDefault?: boolean;
 };
+
