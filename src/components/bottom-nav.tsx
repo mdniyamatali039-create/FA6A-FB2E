@@ -16,7 +16,7 @@ export default function BottomNav() {
         { href: "/worker/find-jobs", label: t('worker_dashboard_find_jobs'), icon: <Briefcase /> },
         { href: "/worker/earnings", label: 'Wallet', icon: <Wallet /> },
         { href: "/worker/chat", label: 'Chat', icon: <MessageSquare /> },
-        { href: "/worker/profile", label: t('worker_dashboard_my_profile'), icon: <User /> },
+        { href: "/worker/profile", label: "Menu", icon: <User /> },
     ];
     
     return (
