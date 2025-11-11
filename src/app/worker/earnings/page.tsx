@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from '@/components/ui/button';
@@ -19,7 +20,7 @@ export default function EarningsPage() {
   return (
     <div className="space-y-8 pb-24">
       <div>
-        <h1 className="text-3xl font-bold font-headline">My Earnings</h1>
+        <h1 className="text-3xl font-bold font-headline">Wallet</h1>
         <p className="text-muted-foreground">Manage your balance and view transaction history.</p>
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

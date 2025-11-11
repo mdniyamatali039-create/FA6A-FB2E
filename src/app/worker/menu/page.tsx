@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { User, Settings, LogOut, ChevronRight, Briefcase, BarChart, MessageSquare } from "lucide-react";
+import { User, Settings, LogOut, ChevronRight, Briefcase, Wallet, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const menuItems = [
@@ -18,8 +18,8 @@ const menuItems = [
   },
   {
     href: "/worker/earnings",
-    label: "My Earnings",
-    icon: <BarChart className="h-5 w-5" />,
+    label: "Wallet",
+    icon: <Wallet className="h-5 w-5" />,
   },
   {
     href: "/worker/chat",
