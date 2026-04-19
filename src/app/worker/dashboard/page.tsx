@@ -69,6 +69,20 @@ export default function WorkerDashboardPage() {
         setJobToCancel(null);
     };
 
+    const [appliedJobs, setAppliedJobs] = useState<Set<string>>(new Set());
+
+    const handleApply = (jobId: string) => {
+        setAppliedJobs(prev => {
+            const newSet = new Set(prev);
+            newSet.add(jobId);
+            return newSet;
+        });
+        toast({
+            title: "Application Submitted",
+            description: "The employer will contact you if selected."
+        });
+    };
+
   return (
     <>
       <div className="space-y-8 pb-24">
@@ -119,8 +133,13 @@ export default function WorkerDashboardPage() {
                                 </div>
                             </div>
 
-                            <Button className="w-full h-12 text-lg font-bold bg-primary hover:bg-primary/90 text-primary-foreground">
-                                Apply Now
+                            <Button
+                                className="w-full h-12 text-lg font-bold"
+                                variant={appliedJobs.has(job.id) ? "secondary" : "default"}
+                                onClick={() => handleApply(job.id)}
+                                disabled={appliedJobs.has(job.id)}
+                            >
+                                {appliedJobs.has(job.id) ? "Applied" : "Apply Now"}
                             </Button>
                         </CardContent>
                     </Card>

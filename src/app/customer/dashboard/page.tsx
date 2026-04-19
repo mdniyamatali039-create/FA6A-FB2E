@@ -32,6 +32,13 @@ export default function CustomerDashboardPage() {
         setSelectedWorker(null);
     }
 
+    const handleNotificationClick = () => {
+        toast({
+            title: "Notifications",
+            description: "You have no new notifications at this time."
+        });
+    };
+
     return (
         <>
             <div className="space-y-8">
@@ -44,7 +51,7 @@ export default function CustomerDashboardPage() {
                         <Button asChild>
                            <Link href="/customer/post-job"><PlusCircle className="mr-2 h-4 w-4" /> {t('customer_dashboard_post_job')}</Link>
                         </Button>
-                        <Button variant="outline" size="icon">
+                        <Button variant="outline" size="icon" onClick={handleNotificationClick}>
                             <Bell className="h-5 w-5" />
                             <span className="sr-only">Notifications</span>
                         </Button>

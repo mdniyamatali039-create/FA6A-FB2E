@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useApp } from '@/hooks/use-app';
 import { IndianRupee } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 // Mock data
 const mockTransactions = [
@@ -16,6 +17,14 @@ const walletBalance = 300;
 
 export default function EarningsPage() {
   const { t } = useApp();
+  const { toast } = useToast();
+
+  const handleWithdraw = () => {
+    toast({
+        title: "Withdrawal Initiated",
+        description: "Your funds will be transferred to your registered UPI ID shortly."
+    });
+  };
 
   return (
     <div className="space-y-8 pb-24">
@@ -34,7 +43,11 @@ export default function EarningsPage() {
                  <span className="text-sm text-primary-foreground/80">Today's Earnings</span>
                  <span className="font-bold text-xl">₹850</span>
              </div>
-             <Button variant="secondary" className="font-bold h-10 px-6 rounded-full shadow-sm text-primary hover:bg-white">
+             <Button
+                variant="secondary"
+                className="font-bold h-10 px-6 rounded-full shadow-sm text-primary hover:bg-white"
+                onClick={handleWithdraw}
+             >
                  Withdraw (UPI)
              </Button>
           </CardContent>

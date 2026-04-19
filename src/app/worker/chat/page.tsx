@@ -5,6 +5,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useApp } from '@/hooks/use-app';
 import ReadAloudButton from '@/components/read-aloud-button';
+import { useToast } from '@/hooks/use-toast';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft, Send } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 
 // Mock data for chat history
 const customerChats = [
@@ -18,9 +23,20 @@ const supportChats = [
 
 export default function ChatPage() {
   const { t } = useApp();
+  const { toast } = useToast();
+  const [selectedChat, setSelectedChat] = useState<{ id: string; name: string; avatar: string } | null>(null);
+  const [message, setMessage] = useState('');
+
+  const handleSend = (msg: string) => {
+      toast({
+          title: "Message Sent",
+          description: `To ${selectedChat?.name || 'Customer'}: "${msg}"`
+      });
+      setMessage('');
+  };
 
   const renderChatListItem = (chat: { id: string; name: string; lastMessage: string; avatar: string; unread?: number; }) => (
-    <div key={chat.id} className="flex items-center gap-4 p-3 hover:bg-muted rounded-lg cursor-pointer">
+    <div key={chat.id} className="flex items-center gap-4 p-3 hover:bg-muted rounded-lg cursor-pointer" onClick={() => setSelectedChat(chat)}>
       <Avatar>
         <AvatarImage src={chat.avatar} alt={chat.name} />
         <AvatarFallback>{chat.name.charAt(0)}</AvatarFallback>
@@ -36,6 +52,53 @@ export default function ChatPage() {
       )}
     </div>
   );
+
+  if (selectedChat) {
+      return (
+          <div className="flex flex-col h-[calc(100vh-8rem)] pb-20">
+              <div className="flex items-center gap-3 pb-4 border-b">
+                  <Button variant="ghost" size="icon" onClick={() => setSelectedChat(null)}>
+                      <ArrowLeft className="h-5 w-5" />
+                  </Button>
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={selectedChat.avatar} alt={selectedChat.name} />
+                    <AvatarFallback>{selectedChat.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <h2 className="text-xl font-bold font-headline">{selectedChat.name}</h2>
+              </div>
+              <div className="flex-grow p-4 flex flex-col justify-end gap-4 overflow-y-auto">
+                 <div className="bg-muted p-3 rounded-2xl rounded-tl-sm w-fit max-w-[80%]">
+                     Hello! I applied for your job.
+                 </div>
+              </div>
+               <div className="pt-4 space-y-2">
+                    <div className="flex flex-wrap gap-2">
+                        <button onClick={() => handleSend("Location share karo")} className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium transition-colors whitespace-nowrap">
+                            Location share karo
+                        </button>
+                        <button onClick={() => handleSend("Kitne baje aaoge?")} className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium transition-colors whitespace-nowrap">
+                            Kitne baje aaoge?
+                        </button>
+                        <button onClick={() => handleSend("Haan, main aa raha hoon")} className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium transition-colors whitespace-nowrap">
+                            Haan, main aa raha hoon
+                        </button>
+                    </div>
+                  <div className="flex items-center gap-2 mt-2">
+                      <Input
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
+                          placeholder="Type a message..."
+                          className="rounded-full h-12"
+                          onKeyDown={(e) => e.key === 'Enter' && message && handleSend(message)}
+                      />
+                      <Button size="icon" className="h-12 w-12 rounded-full shrink-0" onClick={() => message && handleSend(message)} disabled={!message}>
+                          <Send className="h-5 w-5" />
+                      </Button>
+                  </div>
+              </div>
+          </div>
+      );
+  }
 
   return (
     <div className="space-y-8 pb-24 h-full flex flex-col">
@@ -62,20 +125,6 @@ export default function ChatPage() {
                 )}
               </CardContent>
             </Card>
-            <div className="mt-8 space-y-2">
-                <h3 className="font-bold text-muted-foreground uppercase text-xs tracking-wider">Quick Replies</h3>
-                <div className="flex flex-wrap gap-2">
-                    <button className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium transition-colors">
-                        "Location share karo" (Send Location)
-                    </button>
-                    <button className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium transition-colors">
-                        "Kitne baje aaoge?" (What time?)
-                    </button>
-                    <button className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium transition-colors">
-                        "Haan, main aa raha hoon" (Yes, coming)
-                    </button>
-                </div>
-            </div>
           </TabsContent>
           <TabsContent value="team">
             <Card>
