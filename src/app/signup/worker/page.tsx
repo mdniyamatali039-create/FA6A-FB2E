@@ -298,11 +298,31 @@ export default function WorkerSignupPage() {
               <div className="grid md:grid-cols-2 gap-6">
                  <FormField control={form.control} name="desiredDailyWage" render={({ field }) => (
                     <FormItem>
-                        <div className="flex items-center gap-2">
-                            <FormLabel>{t('signup_form_wage')}</FormLabel>
-                            <ReadAloudButton text={t('signup_form_wage')} />
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2">
+                                <FormLabel>{t('signup_form_wage')}</FormLabel>
+                                <ReadAloudButton text={t('signup_form_wage')} />
+                            </div>
+                            <span className="font-bold text-primary text-lg">₹{field.value || 300}/day</span>
                         </div>
-                        <FormControl><Input type="number" {...field} /></FormControl><FormMessage />
+                        <FormControl>
+                            <div className="pt-4">
+                                <input
+                                    type="range"
+                                    min="300"
+                                    max="1500"
+                                    step="50"
+                                    className="w-full accent-primary"
+                                    value={field.value || 300}
+                                    onChange={(e) => field.onChange(parseInt(e.target.value))}
+                                />
+                                <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                                    <span>₹300</span>
+                                    <span>₹1500</span>
+                                </div>
+                            </div>
+                        </FormControl>
+                        <FormMessage />
                     </FormItem>
                 )}/>
                 <FormField control={form.control} name="language" render={({ field }) => (
@@ -323,7 +343,9 @@ export default function WorkerSignupPage() {
                 )}/>
               </div>
 
-              <Button type="submit" className="w-full !mt-8">{t('signup_form_create_account')}</Button>
+              <Button type="submit" className="w-full h-14 text-lg font-bold !mt-8 bg-primary hover:bg-primary/90 text-primary-foreground shadow-md">
+                Start Finding Work
+              </Button>
             </form>
           </Form>
         </CardContent>

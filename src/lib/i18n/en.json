@@ -1,4 +1,3 @@
-
 {
     "app_name": "LabourChok",
     "login": "Login",
@@ -91,4 +90,3 @@
     "chatbot_greeting": "Hello! I'm the LabourChok assistant. How can I help you with onboarding today?",
     "chatbot_typing": "Assistant is typing..."
   }
-}

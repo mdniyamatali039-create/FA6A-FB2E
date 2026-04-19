@@ -83,9 +83,14 @@ export default function CustomerSignupPage() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
-                {t('signup_form_create_account')}
-              </Button>
+              <div className="pt-4 space-y-4">
+                  <div className="bg-primary/5 p-4 rounded-xl border border-primary/20 text-center">
+                      <p className="text-sm font-medium mb-2">Ready to find workers?</p>
+                      <Button type="submit" className="w-full h-14 text-lg font-bold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md">
+                        Post Job Now
+                      </Button>
+                  </div>
+              </div>
             </form>
           </Form>
         </CardContent>

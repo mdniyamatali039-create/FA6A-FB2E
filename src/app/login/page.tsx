@@ -1,84 +1,96 @@
-
 "use client";
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import type { UserRole } from '@/lib/types';
 import Logo from '@/components/logo';
 import { useApp } from '@/hooks/use-app';
 import LanguageSwitcher from '@/components/language-switcher';
-import ReadAloudButton from '@/components/read-aloud-button';
+import { CheckCircle2, Zap, ShieldCheck } from 'lucide-react';
 
-export default function LoginPage() {
-  const [role, setRole] = useState<UserRole>('worker');
-  const { t } = useApp();
+function LoginContent() {
+  const { t, setRole } = useApp();
+  const searchParams = useSearchParams();
+  const defaultRole = searchParams.get('role') || 'worker';
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const router = useRouter();
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setRole(defaultRole as 'worker' | 'customer');
+    if (defaultRole === 'worker') {
+        router.push('/signup/worker');
+    } else {
+        router.push('/signup/customer');
+    }
+  };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-secondary p-4">
-      <div className="absolute top-4 right-4">
+    <div className="flex min-h-screen items-center justify-center bg-secondary p-4 relative">
+      <div className="absolute top-4 right-4 z-10">
         <LanguageSwitcher />
       </div>
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
+      <Card className="w-full max-w-md shadow-xl rounded-2xl overflow-hidden border-0">
+        <CardHeader className="text-center bg-primary/5 pb-8 pt-10">
+          <div className="flex justify-center mb-6">
             <Logo />
           </div>
-          <div className="flex items-center justify-center gap-2">
-            <CardTitle className="text-2xl font-headline">{t('login_title')}</CardTitle>
-            <ReadAloudButton text={t('login_title')} />
-          </div>
-          <div className="flex items-center justify-center gap-2">
-            <CardDescription>{t('login_subtitle')}</CardDescription>
-            <ReadAloudButton text={t('login_subtitle')} />
-          </div>
+          <CardTitle className="text-2xl font-bold font-headline">
+            Welcome to LabourChok
+          </CardTitle>
+          <p className="text-muted-foreground mt-2">Enter your phone number to continue</p>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <RadioGroup defaultValue={role} onValueChange={(value: UserRole) => setRole(value)} className="grid grid-cols-2 gap-4">
-            <div>
-              <RadioGroupItem value="worker" id="worker" className="peer sr-only" />
-              <Label
-                htmlFor="worker"
-                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-              >
-                <div className="flex items-center gap-2">
-                    {t('role_worker')}
-                    <ReadAloudButton text={t('role_worker')} />
+        <CardContent className="pt-8 space-y-6">
+          <form onSubmit={handleLogin} className="space-y-6">
+             <div className="space-y-2">
+                <Label htmlFor="phone" className="text-base font-semibold">Mobile Number</Label>
+                <div className="flex relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">+91</span>
+                    <Input
+                        id="phone"
+                        type="tel"
+                        placeholder="Enter 10 digit number"
+                        className="pl-12 h-14 text-lg rounded-xl"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        maxLength={10}
+                        required
+                    />
                 </div>
-              </Label>
             </div>
-            <div>
-              <RadioGroupItem value="customer" id="customer" className="peer sr-only" />
-              <Label
-                htmlFor="customer"
-                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-              >
-                <div className="flex items-center gap-2">
-                    {t('role_customer')}
-                    <ReadAloudButton text={t('role_customer')} />
-                </div>
-              </Label>
+            <Button type="submit" className="w-full h-14 text-lg rounded-xl font-bold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md transition-all">
+                Send OTP
+            </Button>
+          </form>
+
+          <div className="flex items-center justify-center gap-6 pt-4">
+            <div className="flex items-center gap-1.5 text-sm font-medium text-emerald-600">
+                <CheckCircle2 className="h-4 w-4" /> Secure
             </div>
-          </RadioGroup>
-          <p className="text-sm text-muted-foreground pt-4 text-center">
-            This is a simulated login. Select your role and proceed to the dashboard.
-          </p>
+            <div className="flex items-center gap-1.5 text-sm font-medium text-amber-600">
+                <Zap className="h-4 w-4" /> Fast
+            </div>
+            <div className="flex items-center gap-1.5 text-sm font-medium text-blue-600">
+                <ShieldCheck className="h-4 w-4" /> Free
+            </div>
+          </div>
         </CardContent>
-        <CardFooter className="flex flex-col gap-4">
-          <Button className="w-full" asChild>
-            <Link href={`/${role}/dashboard`}>{t('login_cta')}</Link>
-          </Button>
-          <p className="text-sm text-muted-foreground">
-            Don't have an account?{' '}
-            <Link href="/signup" className="font-semibold text-primary hover:underline">
-              {t('signup')}
-            </Link>
-          </p>
+        <CardFooter className="bg-muted/30 p-4 flex justify-center text-sm text-muted-foreground">
+            By continuing, you agree to our Terms & Conditions
         </CardFooter>
       </Card>
     </div>
   );
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <LoginContent />
+        </Suspense>
+    )
 }

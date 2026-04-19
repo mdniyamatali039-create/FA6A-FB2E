@@ -90,90 +90,58 @@ export default function PostJobPage() {
           <CardContent className="pt-6">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <FormField control={form.control} name="title" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('post_job_field_title')}</FormLabel>
-                    <FormControl><Input placeholder="e.g., Apartment Painting" {...field} /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}/>
-                
-                <FormField control={form.control} name="description" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('post_job_field_desc')}</FormLabel>
-                    <FormControl><Textarea placeholder="Describe the job in detail..." className="min-h-[120px]" {...field} /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}/>
-
-                <FormLabel>Job Location</FormLabel>
-                <FormField control={form.control} name="houseNumber" render={({ field }) => (
-                    <FormItem><FormLabel>Flat, House no., Building</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                )}/>
-                <FormField control={form.control} name="area" render={({ field }) => (
-                    <FormItem><FormLabel>Area, Street, Sector, Village</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                )}/>
-                 <FormField control={form.control} name="landmark" render={({ field }) => (
-                    <FormItem><FormLabel>Landmark (optional)</FormLabel><FormControl><Input placeholder="E.g. near Apollo Hospital" {...field} /></FormControl><FormMessage /></FormItem>
-                )}/>
-
-                <div className="grid md:grid-cols-2 gap-8">
-                   <FormField control={form.control} name="pincode" render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Pincode</FormLabel>
-                        <FormControl><Input placeholder="6-digit Pincode" {...field} /></FormControl>
-                        <FormMessage />
-                      </FormItem>
-                  )}/>
-                  <FormField control={form.control} name="city" render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Town/City</FormLabel>
-                        <FormControl><Input {...field} /></FormControl>
-                        <FormMessage />
-                      </FormItem>
-                  )}/>
-                </div>
-                 <FormField control={form.control} name="state" render={({ field }) => (
+                <FormField control={form.control} name="skills" render={({ field }) => (
                     <FormItem>
-                        <FormLabel>State</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl><SelectTrigger><SelectValue placeholder="Select state" /></SelectTrigger></FormControl>
+                        <FormLabel>Job Type (Worker Needed)</FormLabel>
+                        <Select onValueChange={(val) => field.onChange([val])} defaultValue={field.value[0]}>
+                            <FormControl>
+                                <SelectTrigger className="h-12 text-lg">
+                                    <SelectValue placeholder="Select worker type" />
+                                </SelectTrigger>
+                            </FormControl>
                             <SelectContent>
-                                {indianStates.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                                {primarySkills.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
                             </SelectContent>
                         </Select>
                         <FormMessage />
                     </FormItem>
                 )}/>
-                
-                <FormField control={form.control} name="wage" render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t('post_job_field_wage')}</FormLabel>
-                      <FormControl><Input type="number" {...field} /></FormControl>
-                      <FormMessage />
-                    </FormItem>
-                )}/>
 
-                <FormField control={form.control} name="skills" render={() => (
+                <FormField control={form.control} name="title" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('post_job_field_skills')}</FormLabel>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {primarySkills.map((item) => (
-                      <FormField key={item} control={form.control} name="skills" render={({ field }) => (
-                        <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
-                          <FormControl><Checkbox checked={field.value?.includes(item)} onCheckedChange={(checked) => {
-                            return checked ? field.onChange([...field.value, item]) : field.onChange(field.value?.filter((value) => value !== item));
-                          }}/></FormControl>
-                          <FormLabel className="font-normal">{item}</FormLabel>
-                        </FormItem>
-                      )}/>
-                    ))}
-                    </div>
+                    <FormLabel>Number of Workers Needed</FormLabel>
+                    <FormControl><Input type="number" placeholder="1" className="h-12 text-lg" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )}/>
 
-                <Button type="submit" size="lg">{t('post_job_cta')}</Button>
+                <FormField control={form.control} name="wage" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Daily Wage per Worker (₹)</FormLabel>
+                      <FormControl><Input type="number" className="h-12 text-lg" {...field} /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                )}/>
+
+                <FormField control={form.control} name="description" render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Date & Time</FormLabel>
+                    <FormControl><Input type="datetime-local" className="h-12 text-lg" {...field} /></FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}/>
+
+                <div className="bg-primary/5 p-4 rounded-xl border border-primary/20">
+                    <div className="flex items-start gap-3">
+                        <Badge className="bg-primary text-primary-foreground h-6 w-6 rounded-full flex items-center justify-center p-0 shrink-0">!</Badge>
+                        <div className="text-sm">
+                            <p className="font-semibold text-foreground">Location auto-filled</p>
+                            <p className="text-muted-foreground mt-1">123, Business Rd, Connaught Place, New Delhi - 110001</p>
+                        </div>
+                    </div>
+                </div>
+
+                <Button type="submit" className="w-full h-14 text-lg font-bold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md">{t('post_job_cta')}</Button>
               </form>
             </Form>
           </CardContent>

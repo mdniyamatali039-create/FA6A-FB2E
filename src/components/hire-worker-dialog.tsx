@@ -39,7 +39,7 @@ export default function HireWorkerDialog({ worker, open, onOpenChange, onConfirm
   };
   
   const handleLocationSelect = (newAddress: string) => {
-    const newAddr = { id: `addr${addresses.length + 1}`, address: newAddress };
+    const newAddr = { id: `addr${addresses.length + 1}`, address: newAddress, addressDetails: { houseNumber: '1', area: newAddress, city: 'City', pincode: '000000', state: 'State' } };
     setAddresses(prev => [...prev, newAddr]);
     setSelectedAddress(newAddress);
     setIsMapOpen(false);
