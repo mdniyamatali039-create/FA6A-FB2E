@@ -23,14 +23,20 @@ export default function EarningsPage() {
         <h1 className="text-3xl font-bold font-headline">Wallet</h1>
         <p className="text-muted-foreground">Manage your balance and view transaction history.</p>
       </div>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription>Available Balance</CardDescription>
-            <CardTitle className="text-4xl">₹{walletBalance}</CardTitle>
+      <div className="grid gap-4">
+        <Card className="bg-primary text-primary-foreground shadow-md">
+          <CardHeader className="pb-2 text-center">
+            <CardDescription className="text-primary-foreground/80">Total Earnings</CardDescription>
+            <CardTitle className="text-5xl font-bold">₹{walletBalance + 1800}</CardTitle>
           </CardHeader>
-          <CardContent>
-            <Button className="w-full">Withdraw to Bank</Button>
+          <CardContent className="flex justify-between items-center bg-primary-foreground/10 mx-4 mb-4 rounded-lg p-3">
+             <div className="flex flex-col">
+                 <span className="text-sm text-primary-foreground/80">Today's Earnings</span>
+                 <span className="font-bold text-xl">₹850</span>
+             </div>
+             <Button variant="secondary" className="font-bold h-10 px-6 rounded-full shadow-sm text-primary hover:bg-white">
+                 Withdraw (UPI)
+             </Button>
           </CardContent>
         </Card>
       </div>

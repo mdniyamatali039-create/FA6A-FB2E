@@ -13,9 +13,9 @@ export default function BottomNav() {
 
     const navItems = [
         { href: "/worker/dashboard", label: t('dashboard'), icon: <Home /> },
-        { href: "/worker/team", label: 'My Team', icon: <Users /> },
-        { href: "/worker/chat", label: 'Chat', icon: <MessageSquare /> },
-        { href: "/worker/menu", label: "Menu", icon: <MenuIcon /> },
+        { href: "/worker/find-jobs", label: 'Jobs', icon: <Users /> },
+        { href: "/worker/earnings", label: 'Wallet', icon: <MessageSquare /> },
+        { href: "/worker/profile", label: "Profile", icon: <MenuIcon /> },
     ];
     
     return (

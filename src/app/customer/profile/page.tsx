@@ -52,7 +52,7 @@ export default function CustomerProfilePage() {
   }
 
   const handleLocationSelect = (address: string) => {
-    const newAddress = { id: `addr${addresses.length + 1}`, address };
+    const newAddress = { id: `addr${addresses.length + 1}`, address, addressDetails: { houseNumber: '1', area: address, city: 'City', pincode: '000000', state: 'State' } };
     setAddresses(prev => [...prev, newAddress]);
     setIsMapOpen(false);
     toast({

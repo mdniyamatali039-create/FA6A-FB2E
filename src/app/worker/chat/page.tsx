@@ -38,43 +38,57 @@ export default function ChatPage() {
   );
 
   return (
-    <div className="space-y-8 pb-24">
-      <div>
-        <div className="flex items-center gap-2">
-            <h1 className="text-3xl font-bold font-headline">Chat</h1>
-            <ReadAloudButton text="Chat" />
+    <div className="space-y-8 pb-24 h-full flex flex-col">
+        <div>
+          <div className="flex items-center gap-2">
+              <h1 className="text-3xl font-bold font-headline">Chat</h1>
+              <ReadAloudButton text="Chat" />
+          </div>
+          <p className="text-muted-foreground">View your conversations with customers and support.</p>
         </div>
-        <p className="text-muted-foreground">View your conversations with customers and support.</p>
-      </div>
 
-      <Tabs defaultValue="customers" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="customers">Customers</TabsTrigger>
-          <TabsTrigger value="team">Team</TabsTrigger>
-        </TabsList>
-        <TabsContent value="customers">
-          <Card>
-            <CardContent className="p-2 space-y-1">
-              {customerChats.length > 0 ? (
-                customerChats.map(renderChatListItem)
-              ) : (
-                <p className="text-muted-foreground text-center p-8">No customer chats yet.</p>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="team">
-          <Card>
-            <CardContent className="p-2 space-y-1">
-               {supportChats.length > 0 ? (
-                supportChats.map(renderChatListItem)
-              ) : (
-                <p className="text-muted-foreground text-center p-8">No messages from the LabourChok team.</p>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-    </div>
+        <Tabs defaultValue="customers" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="customers">Customers</TabsTrigger>
+            <TabsTrigger value="team">Team</TabsTrigger>
+          </TabsList>
+          <TabsContent value="customers">
+            <Card>
+              <CardContent className="p-2 space-y-1">
+                {customerChats.length > 0 ? (
+                  customerChats.map(renderChatListItem)
+                ) : (
+                  <p className="text-muted-foreground text-center p-8">No customer chats yet.</p>
+                )}
+              </CardContent>
+            </Card>
+            <div className="mt-8 space-y-2">
+                <h3 className="font-bold text-muted-foreground uppercase text-xs tracking-wider">Quick Replies</h3>
+                <div className="flex flex-wrap gap-2">
+                    <button className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium transition-colors">
+                        "Location share karo" (Send Location)
+                    </button>
+                    <button className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium transition-colors">
+                        "Kitne baje aaoge?" (What time?)
+                    </button>
+                    <button className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium transition-colors">
+                        "Haan, main aa raha hoon" (Yes, coming)
+                    </button>
+                </div>
+            </div>
+          </TabsContent>
+          <TabsContent value="team">
+            <Card>
+              <CardContent className="p-2 space-y-1">
+                 {supportChats.length > 0 ? (
+                  supportChats.map(renderChatListItem)
+                ) : (
+                  <p className="text-muted-foreground text-center p-8">No messages from the LabourChok team.</p>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
   );
 }

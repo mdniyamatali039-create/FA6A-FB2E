@@ -88,95 +88,47 @@ export default function WorkerDashboardPage() {
           </CardContent>
         </Card>
         
-        {/* Main Widgets */}
-        <div className="grid gap-8">
-          <Card>
-              <CardHeader>
-                  <CardTitle>Today's Jobs</CardTitle>
-              </CardHeader>
-              <CardContent>
-                  {activeJobs.length > 0 ? (
-                      activeJobs.map(job => {
-                          // Mock finding customer details
-                          const customer = { name: "Sanjay Patel", avatar: "https://picsum.photos/seed/sanjay/100/100"};
-                          return (
-                              <div key={job.id} className="space-y-4">
-                                  <div>
-                                      <p className="font-semibold text-lg">{job.title}</p>
-                                      <div className="flex items-center gap-3 mt-2">
-                                          <Image src={customer.avatar} alt={customer.name} width={40} height={40} className="rounded-full" />
-                                          <div>
-                                              <p className="text-sm font-medium">{customer.name}</p>
-                                              <p className="text-xs text-muted-foreground">{job.address.houseNumber}, {job.address.area}, {job.address.city} - {job.address.pincode}, {job.address.state}, India</p>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <Button className="w-full" onClick={() => handleNavigate(`${job.address.houseNumber}, ${job.address.area}, ${job.address.city}, ${job.address.state}`)}>
-                                      <MapPin className="mr-2 h-4 w-4" /> Navigate to Job
-                                  </Button>
-                              </div>
-                          )
-                      })
-                  ) : (
-                      <>
-                          <p className="text-muted-foreground">No jobs assigned for today.</p>
-                          <ReadAloudButton text="No active jobs today." />
-                      </>
-                  )}
-              </CardContent>
-          </Card>
-          <Card>
-              <CardHeader>
-                  <CardTitle>Upcoming Work</CardTitle>
-              </CardHeader>
-              <CardContent>
-                  {upcomingJobs.length > 0 ? (
-                      <div className="space-y-4">
-                          {upcomingJobs.map(job => {
-                               const customer = { name: "Meera Sharma", avatar: "https://picsum.photos/seed/meera/100/100"}; // Mock
-                               return (
-                                <div key={job.id} className="p-4 rounded-md border">
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <p className="font-semibold">{job.title}</p>
-                                            <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
-                                                <Calendar className="h-3 w-3" />
-                                                {job.startDate ? format(new Date(job.startDate), 'EEE, MMM dd') : 'Date not set'}
-                                            </p>
-                                        </div>
-                                        <Button 
-                                            variant="ghost" 
-                                            size="icon" 
-                                            className="h-7 w-7 text-muted-foreground hover:text-destructive" 
-                                            onClick={() => setJobToCancel(job)}
-                                            disabled={!canCancel(job)}
-                                            title={canCancel(job) ? "Cancel Job" : "Cannot cancel within 24 hours of start date"}
-                                        >
-                                            <X className="h-4 w-4" />
-                                        </Button>
-                                    </div>
-                                    <div className="mt-3 space-y-2 text-sm">
-                                        <div className="flex items-center gap-2 text-muted-foreground">
-                                            <User className="h-4 w-4"/>
-                                            <span>{customer.name}</span>
-                                        </div>
-                                         <div className="flex items-center gap-2 text-muted-foreground">
-                                            <MapPin className="h-4 w-4"/>
-                                            <span className="truncate">{job.address.houseNumber}, {job.address.area}, {job.address.city}</span>
-                                        </div>
-                                    </div>
+        {/* Job Feed */}
+        <div>
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold font-headline">New Jobs Near You</h2>
+                <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">Live</Badge>
+            </div>
+            <div className="space-y-4">
+                {mockJobs.filter(j => j.status === 'open').slice(0, 3).map(job => (
+                    <Card key={job.id} className="border-l-4 border-l-emerald-500 shadow-md">
+                        <CardContent className="p-4 space-y-4">
+                            <div className="flex justify-between items-start">
+                                <div>
+                                    <h3 className="font-bold text-lg">{job.title}</h3>
+                                    <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
+                                        <MapPin className="h-4 w-4 text-primary" /> {job.address.area} <span className="font-semibold text-foreground">(1.2 km away)</span>
+                                    </p>
                                 </div>
-                               )
-                          })}
-                      </div>
-                  ) : (
-                      <p className="text-muted-foreground">No upcoming jobs scheduled.</p>
-                  )}
-              </CardContent>
-          </Card>
+                                <Badge className="bg-emerald-100 text-emerald-800 hover:bg-emerald-200 border-0">Today</Badge>
+                            </div>
+
+                            <div className="flex items-center justify-between bg-secondary/50 p-3 rounded-lg">
+                                <div className="flex flex-col">
+                                    <span className="text-xs text-muted-foreground">Daily Wage</span>
+                                    <span className="font-bold text-lg text-primary">₹{job.wage}</span>
+                                </div>
+                                <div className="flex flex-col text-right">
+                                    <span className="text-xs text-muted-foreground">Requirement</span>
+                                    <span className="font-medium text-sm">{job.skills[0]}</span>
+                                </div>
+                            </div>
+
+                            <Button className="w-full h-12 text-lg font-bold bg-primary hover:bg-primary/90 text-primary-foreground">
+                                Apply Now
+                            </Button>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
         </div>
 
-        {/* AI Job Suggestion Card */}
+        {/* AI Job Suggestion Card (Kept for context) */}
         <Card className="bg-primary text-primary-foreground">
           <CardHeader>
               <CardTitle className="flex items-center gap-2"><Zap className="h-6 w-6" />AI Job Suggestion</CardTitle>

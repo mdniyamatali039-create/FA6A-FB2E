@@ -77,29 +77,33 @@ export default function CustomerDashboardPage() {
                 </div>
 
                 <div>
-                    <h2 className="text-2xl font-bold font-headline mb-4">Recommended Workers</h2>
+                    <h2 className="text-2xl font-bold font-headline mb-4">Nearby Workers</h2>
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {recommendedWorkers.map(worker => (
-                            <Card key={worker.id}>
-                                <CardHeader className="flex flex-row items-center gap-4">
-                                    <Image src={worker.avatarUrl} alt={worker.name} width={48} height={48} className="rounded-full" />
-                                    <div>
-                                        <CardTitle className="text-lg">{worker.name}</CardTitle>
-                                        <div className="flex items-center gap-1 text-sm text-amber-500 font-bold">
-                                            <Star className="w-4 h-4 fill-current" />
-                                            <span>{worker.rating}</span>
+                        {recommendedWorkers.map((worker, index) => (
+                            <Card key={worker.id} className="overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                                <CardContent className="p-0">
+                                    <div className="flex items-center p-4 gap-4">
+                                        <Image src={worker.avatarUrl} alt={worker.name} width={64} height={64} className="rounded-full border-2 border-primary/20" />
+                                        <div className="flex-1">
+                                            <div className="flex justify-between items-start">
+                                                <h3 className="font-bold text-lg leading-tight">{worker.name}</h3>
+                                                <div className="flex items-center gap-1 text-sm text-amber-500 font-bold bg-amber-50 px-2 py-0.5 rounded-full">
+                                                    <Star className="w-3.5 h-3.5 fill-current" />
+                                                    <span>{worker.rating}</span>
+                                                </div>
+                                            </div>
+                                            <p className="text-sm text-primary font-medium mt-1">{worker.primarySkills[0]}</p>
+                                            <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+                                                <span className="font-semibold text-foreground">{0.5 + index * 0.3} km away</span> • {worker.experience}
+                                            </p>
                                         </div>
                                     </div>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="flex flex-wrap gap-2 mb-2">
-                                        {worker.primarySkills.map(skill => <Badge key={skill} variant="outline">{skill}</Badge>)}
+                                    <div className="bg-secondary/50 p-4 border-t">
+                                        <Button className="w-full font-bold h-12 text-md bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => setSelectedWorker(worker)}>
+                                            Hire {worker.name.split(' ')[0]}
+                                        </Button>
                                     </div>
-                                    <p className="text-sm text-muted-foreground">{worker.experience} &bull; {worker.location}</p>
                                 </CardContent>
-                                <CardFooter>
-                                    <Button className="w-full" onClick={() => setSelectedWorker(worker)}>Hire Now</Button>
-                                </CardFooter>
                             </Card>
                         ))}
                     </div>
